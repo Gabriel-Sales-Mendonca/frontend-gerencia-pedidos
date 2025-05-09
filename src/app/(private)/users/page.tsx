@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import api from '../../../services/axios';
+import api from '@/services/axios';
 
 interface User {
     id: number;
