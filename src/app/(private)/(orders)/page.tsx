@@ -6,6 +6,7 @@ import api from '@/services/axios'
 interface ServiceOrder {
   id: number
   location_id: number
+  destination_id: number
   order_id: number
   product_id: string
   location: { name: string }
@@ -76,23 +77,19 @@ export default function Home() {
 
               {expandedOrders[key] && (
                 <ul className="ml-4 mt-2 space-y-2 border-l border-gray-300 pl-4">
-                  <li className="grid grid-cols-6 font-medium text-gray-500">
+                  <li className="grid grid-cols-3 font-medium text-gray-500">
                     <span>Produto</span>
+                    <span>Destino</span>
                     <span>Localização</span>
-                    <span>Início</span>
-                    <span>Fim</span>
-                    <span></span>
                   </li>
                   {orderDetails[key]?.map((detail) => (
                     <li
                       key={detail.id}
-                      className="grid grid-cols-6 text-sm bg-gray-50 p-2 rounded-md"
+                      className="grid grid-cols-3 text-sm bg-gray-50 p-2 rounded-md"
                     >
                       <span>{detail.product_id}</span>
+                      <span>{detail.destination_id ?? 'sem destino'}</span>
                       <span>{detail.location.name}</span>
-                      <span>--/--/--</span>
-                      <span>--/--/--</span>
-                      <button className='w-[50%] px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md transition duration-200 ease-in-out cursor-pointer'>Atualizar</button>
                     </li>
                   ))}
                 </ul>
