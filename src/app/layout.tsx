@@ -13,6 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
+      <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+      </head>
       <body>
         {children}
       </body>
