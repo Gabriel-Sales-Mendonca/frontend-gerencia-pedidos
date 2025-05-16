@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 import api from '@/services/axios'
+import axios from 'axios'
 
 interface ServiceOrder {
   id: number
@@ -57,8 +59,25 @@ export default function Home() {
       setExpandedOrders((prev) => ({ ...prev, [key]: false }))
     } else {
       if (!orderDetails[key]) {
-        const res = await api.get(`/service-orders/by-order/${orderId}?company_id=${companyId}`)
-        setOrderDetails((prev) => ({ ...prev, [key]: res.data }))
+        const toastId = toast.loading("Buscando...")
+
+        try {
+          const res = await api.get(`/service-orders/by-order/${orderId}?company_id=${companyId}`)
+          setOrderDetails((prev) => ({ ...prev, [key]: res.data }))
+          
+          toast.update(toastId, {
+            isLoading: false,
+            autoClose: 1,
+          })
+        } catch(error) {
+            toast.update(toastId, {
+            render: 'Erro ao buscar os dados',
+            type: 'error',
+            isLoading: false,
+            autoClose: 3000,
+            closeOnClick: true,
+          })
+        }
       }
       setExpandedOrders((prev) => ({ ...prev, [key]: true }))
     }
@@ -76,9 +95,33 @@ export default function Home() {
     const newLocationId = destinationUpdates[serviceOrderId]
     if (!newLocationId) return
 
-    await api.patch(`/service-orders/update-destination/${serviceOrderId}?location_id=${newLocationId}`)
-    await refreshServiceOrder(orderId, companyId)
-    setEditingDestinationId(null)
+    const toastId = toast.loading("Atualizando destino...")
+
+    try {
+      await api.patch(`/service-orders/update-destination/${serviceOrderId}?location_id=${newLocationId}`)
+      await refreshServiceOrder(orderId, companyId)
+      setEditingDestinationId(null)
+
+      toast.update(toastId, {
+        render: 'Destino atualizado!',
+        type: 'success',
+        isLoading: false,
+        autoClose: 3000,
+        closeOnClick: true,
+      })
+    } catch(error) {
+
+      if (error instanceof axios.AxiosError && error.response) {
+        toast.update(toastId, {
+          render: error.response.data.message,
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+        })
+      }
+    }
+
   }
 
   const updateLocation = async (
@@ -86,7 +129,31 @@ export default function Home() {
     orderId: number,
     companyId: number
   ) => {
-    await api.patch(`/service-orders/update-location/${serviceOrderId}`)
+    const toastId = toast.loading("Atualizando localização")
+
+    try {
+      await api.patch(`/service-orders/update-location/${serviceOrderId}`)
+
+      toast.update(toastId, {
+        render: 'Localização atualizada!',
+        type: 'success',
+        isLoading: false,
+        autoClose: 3000,
+        closeOnClick: true,
+      })
+    } catch(error) {
+      
+      if (error instanceof axios.AxiosError && error.response) {
+        toast.update(toastId, {
+          render: error.response.data.message,
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+        })
+      }
+    }
+
     await refreshServiceOrder(orderId, companyId)
   }
 
