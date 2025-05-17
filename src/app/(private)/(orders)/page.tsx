@@ -1,6 +1,7 @@
 'use client'
 
 import { useOrders } from "@/hooks/useOrders"
+import { formatDate } from '@/utils/formatDate'
 
 export default function Home() {
   const {
@@ -48,16 +49,17 @@ export default function Home() {
 
               {expandedOrders[key] && (
                 <ul className="ml-4 mt-2 space-y-2 border-l border-gray-300 pl-4">
-                  <li className="grid grid-cols-4 font-medium text-gray-500">
+                  <li className="grid grid-cols-5 font-medium text-gray-500">
                     <span>Produto</span>
                     <span>Destino</span>
                     <span>Localização</span>
-                    <span>Ações</span>
+                    <span>Início</span>
+                    <span>Fim</span>
                   </li>
                   {orderDetails[key]?.map((detail) => (
                     <li
                       key={detail.id}
-                      className="grid grid-cols-4 items-center text-sm bg-gray-50 p-2 rounded-md gap-2"
+                      className="grid grid-cols-5 items-center text-sm bg-gray-50 p-2 rounded-md gap-2"
                     >
                       <span>{detail.product_id}</span>
                       <span>
@@ -118,7 +120,10 @@ export default function Home() {
                         </button>
                       </span>
                       <span>
-                          vazio
+                          — / — / —
+                      </span>
+                      <span>
+                          {formatDate(detail.location_delivery_date)}
                       </span>
                     </li>
                   ))}

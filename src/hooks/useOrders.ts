@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import api from '@/services/axios'
 import axios from 'axios'
+
+import api from '@/services/axios'
 
 interface ServiceOrder {
   id: number
@@ -11,6 +12,7 @@ interface ServiceOrder {
   product_id: string
   location: { name: string }
   destinationLocation?: { name: string } | null
+  location_delivery_date?: Date
 }
 
 interface GroupedOrder {
