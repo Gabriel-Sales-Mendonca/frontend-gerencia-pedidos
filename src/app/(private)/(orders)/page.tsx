@@ -107,16 +107,18 @@ export default function Home() {
                           </span>
                         )}
                       </span>
-                      <span>{detail.location?.name ?? '—'}</span>
-                      <span>
+                      <span>{detail.location?.name ?? '—'}
                         <button
                           onClick={() =>
                             updateLocation(detail.id, order.order_id, order.company_id)
                           }
-                          className="bg-blue-500 text-white text-xs px-3 py-1 rounded hover:bg-blue-600 transition-colors cursor-pointer"
+                          className="ml-3 bg-blue-500 text-white text-xs px-2 py-1 rounded hover:bg-blue-600 transition-colors cursor-pointer"
                         >
                           Receber
                         </button>
+                      </span>
+                      <span>
+                          vazio
                       </span>
                     </li>
                   ))}
