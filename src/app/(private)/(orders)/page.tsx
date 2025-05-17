@@ -20,7 +20,7 @@ export default function Home() {
   } = useOrders()
 
   return (
-    <div className="p-8 max-w-5xl mx-auto">
+    <div className="p-8 w-[90%] mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-center">Pedidos</h1>
 
       <div className="grid grid-cols-4 font-semibold text-gray-700 bg-gray-100 p-4 rounded-t-lg border-b">
