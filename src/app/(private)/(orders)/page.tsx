@@ -1,7 +1,7 @@
 'use client'
 
 import { useOrders } from "@/hooks/useOrders"
-import { formatDate } from '@/utils/formatDate'
+import { formatDate, toUTCDateFromLocalDateInput } from '@/utils/formatDate'
 import { useState } from "react"
 
 export default function Home() {
@@ -18,8 +18,12 @@ export default function Home() {
     setEditingDestinationId,
     setDestinationUpdates,
     updateDestination,
-    updateLocation
+    updateLocation,
+    updateLocationDeliveryDate
   } = useOrders()
+
+  const [editLocationDeliveryDate, setEditLocationDeliveryDate] = useState<number | null>(null)
+  const [newDate, setNewDate] = useState('')
 
   return (
     <div className="p-8 w-[90%] mx-auto">
@@ -38,6 +42,7 @@ export default function Home() {
 
           return (
             <li key={key}>
+
               <div
                 onClick={() => toggleExpand(order.order_id, order.company_id)}
                 className="grid grid-cols-4 p-4 bg-white hover:bg-gray-50 transition-all rounded-md shadow-sm cursor-pointer"
@@ -50,17 +55,21 @@ export default function Home() {
 
               {expandedOrders[key] && (
                 <ul className="ml-4 mt-2 space-y-2 border-l border-gray-300 pl-4">
+
                   <li className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] font-medium text-gray-500">
                     <span>Produto</span>
                     <span>Destino</span>
                     <span>Localização</span>
-                    <span>Início</span>
-                    <span>Fim</span>
+                    <span>Recebido em</span>
+                    <span>Entregar até</span>
                   </li>
+
                   {orderDetails[key]?.map((detail) => (
                     <div key={detail.id} className="mb-6 rounded border border-gray-300">
                       <li className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] items-center text-sm bg-white p-2 rounded-t gap-2">
+
                         <span>{detail.product_id}</span>
+
                         <span>
                           {editingDestinationId === detail.id ? (
                             <div className="flex items-center gap-2">
@@ -113,6 +122,7 @@ export default function Home() {
                             </span>
                           )}
                         </span>
+
                         <span>
                           {detail.location?.name ?? '—'}
                           <button
@@ -124,15 +134,70 @@ export default function Home() {
                             Receber
                           </button>
                         </span>
-                        <span>— / — / —</span>
-                        <span className="flex items-center">
-                          {formatDate(detail.location_delivery_date)}
-                          <button className="ml-3 text-center flex">
-                            <span className="material-symbols-outlined hover:text-orange-600 cursor-pointer">
-                              edit_square
-                            </span>
-                          </button>
+
+                        <span>{formatDate(detail.location_start_date)}</span>
+
+                        <span>
+                          {editLocationDeliveryDate === detail.id ?
+                            (
+                              <div className="flex items-center">
+                                <input 
+                                  type="date" 
+                                  onChange={(e) => {setNewDate(e.target.value)}}
+                                />
+
+                                <button
+                                  onClick={() => { setEditLocationDeliveryDate(null) }}
+                                  className="text-blue-600 text-xs hover:underline cursor-pointer"
+                                >
+                                  <span className="material-symbols-outlined text-red-600 rounded-full hover:bg-gray-200">
+                                    close
+                                  </span>
+                                </button>
+
+                                <button
+                                  onClick={() => {
+                                    if (newDate != null) {
+                                      const utcDate = toUTCDateFromLocalDateInput(newDate).toISOString()
+                                      console.log('Enviando para API:', utcDate)
+
+                                      updateLocationDeliveryDate(
+                                        detail.order_id,
+                                        order.company_id,
+                                        detail.id,
+                                        utcDate // <-- Enviar string ISO
+                                      )
+                                    }
+
+                                    setEditLocationDeliveryDate(null)
+                                  }}
+                                  className="text-blue-600 text-xs hover:underline cursor-pointer"
+                                >
+                                  <span className="material-symbols-outlined text-green-600 rounded-full hover:bg-gray-200">
+                                    check
+                                  </span>
+                                </button>
+
+                              </div>
+                            ) : (
+                              <div className="flex items-center">
+                                <span>
+                                  {formatDate(detail.location_delivery_date)}
+                                </span>
+
+                                <button
+                                  onClick={() => { setEditLocationDeliveryDate(detail.id) }}
+                                  className="ml-3 text-center flex"
+                                >
+                                  <span className="material-symbols-outlined hover:text-orange-600 cursor-pointer">
+                                    edit_square
+                                  </span>
+                                </button>
+                              </div>
+                            )
+                          }
                         </span>
+
                       </li>
                     </div>
                   ))}

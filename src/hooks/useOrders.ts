@@ -12,6 +12,7 @@ interface ServiceOrder {
   product_id: string
   location: { name: string }
   destinationLocation?: { name: string } | null
+  location_start_date?: Date
   location_delivery_date?: Date
 }
 
@@ -166,6 +167,14 @@ export function useOrders() {
     }))
   }
 
+  const updateLocationDeliveryDate = async (orderId: number, companyId: number, serviceOrderId: number, newDate: string) => {
+    await api.patch(`/service-orders/update-location-delivery-date/${serviceOrderId}`, {
+      locationDeliveryDate: newDate
+    })
+
+    await refreshServiceOrder(orderId, companyId)
+  }
+
   return {
     groupedOrders,
     expandedOrders,
@@ -179,6 +188,7 @@ export function useOrders() {
     setEditingDestinationId,
     setDestinationUpdates,
     updateDestination,
-    updateLocation
+    updateLocation,
+    updateLocationDeliveryDate
   }
 }
