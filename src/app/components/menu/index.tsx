@@ -14,7 +14,11 @@ export default function Menu() {
     return  (
         <>
             <button onClick={handleClose} className='absolute text-white font-bold top-8 left-4 cursor-pointer'>
-                {isVisible ? '╳' : '☰'}
+                {isVisible ? 
+                    <span className='material-symbols-outlined'>close</span> 
+                    :
+                    <span className='material-symbols-outlined'>menu</span>
+                }
             </button>
             {isVisible && (
                 <div className="h-[100vh] w-[15%] bg-blue-800 flex-shrink-0">

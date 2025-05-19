@@ -3,7 +3,10 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
-import api from '../../../services/axios';
+import { toast } from 'react-toastify'
+import axios from 'axios';
+
+import api from '@/services/axios';
 
 export default function Login() {
     const router = useRouter();
@@ -23,9 +26,6 @@ export default function Login() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Aqui você pode adicionar a lógica para enviar os dados para o servidor
-        console.log('Dados do formulário:', formData);
-        // Exemplo: enviarParaBackend(formData);
 
         try {
             const response = await api.post('/auth/login', formData)
@@ -41,8 +41,12 @@ export default function Login() {
 
             router.push("/")
 
-        } catch(error) {
-            console.error("Erro no login")
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error("Erro inesperado.");
+            }
         }
     };
 
