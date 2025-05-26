@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import 'react-toastify/dist/ReactToastify.css';
-import "./globals.css";
 import { ToastContainer } from 'react-toastify';
+
+import "./globals.css";
+import UserProvider from '@/app/contexts/user-provider'
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,7 +21,9 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
       </head>
       <body>
-        {children}
+        <UserProvider>
+          {children}
+        </UserProvider>
         <ToastContainer
           position="top-right"
           autoClose={3000}

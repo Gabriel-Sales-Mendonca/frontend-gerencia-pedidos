@@ -1,7 +1,7 @@
 'use client'
 
-import Header from "../components/header";
-import Menu from "../components/menu";
+import Header from "../components/Header";
+import Menu from "../components/Menu";
 
 export default function PublicLayout({
   children,

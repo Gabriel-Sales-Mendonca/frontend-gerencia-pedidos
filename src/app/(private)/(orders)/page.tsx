@@ -29,7 +29,9 @@ export default function Home() {
     <div className="p-8 w-[90%] mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-center">Pedidos</h1>
 
-      <div className="grid grid-cols-4 font-semibold text-gray-700 bg-gray-100 p-4 rounded-t-lg border-b">
+      <button className='btn-create'>Novo Pedido</button>
+
+      <div className="grid grid-cols-[1fr_1fr_1fr_1fr_30px] font-semibold text-gray-700 bg-gray-100 p-4 rounded-t-lg border-b">
         <div>Pedido</div>
         <div>Empresa</div>
         <div>Data de Entrega</div>
@@ -45,12 +47,17 @@ export default function Home() {
 
               <div
                 onClick={() => toggleExpand(order.order_id, order.company_id)}
-                className="grid grid-cols-4 p-4 bg-white hover:bg-gray-50 transition-all rounded-md shadow-sm cursor-pointer"
+                className="grid grid-cols-[1fr_1fr_1fr_1fr_30px] p-4 bg-white hover:bg-gray-50 transition-all rounded-md shadow-sm cursor-pointer"
               >
                 <div>{order.order_id}</div>
                 <div>{order.company_name}</div>
                 <div>{order.delivery_date ?? '—'}</div>
                 <div>{order.qtd_product}</div>
+                <button className="btn-edit ml-3 text-center flex">
+                  <span className="material-symbols-outlined">
+                    edit_square
+                  </span>
+                </button>
               </div>
 
               {expandedOrders[key] && (
@@ -141,9 +148,9 @@ export default function Home() {
                           {editLocationDeliveryDate === detail.id ?
                             (
                               <div className="flex items-center">
-                                <input 
-                                  type="date" 
-                                  onChange={(e) => {setNewDate(e.target.value)}}
+                                <input
+                                  type="date"
+                                  onChange={(e) => { setNewDate(e.target.value) }}
                                 />
 
                                 <button
@@ -189,7 +196,7 @@ export default function Home() {
                                   onClick={() => { setEditLocationDeliveryDate(detail.id) }}
                                   className="ml-3 text-center flex"
                                 >
-                                  <span className="material-symbols-outlined hover:text-orange-600 cursor-pointer">
+                                  <span className="material-symbols-outlined btn-edit">
                                     edit_square
                                   </span>
                                 </button>
