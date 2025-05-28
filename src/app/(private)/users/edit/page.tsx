@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import api from "@/services/axios";
 import { useUser } from "@/hooks/useUser"
 import { IUser } from "@/app/interfaces/user"
+import Link from "next/link";
 
 
 export default function EditUser() {
@@ -24,7 +25,6 @@ export default function EditUser() {
     });
 
     useEffect(() => {
-        console.log("ID: " + id)
         setFormData({ id: id, name: name, email: email, roles: roles })
     }, [])
 
@@ -95,6 +95,15 @@ export default function EditUser() {
                     Editar
                 </button>
             </form>
+
+            <div className="my-10">
+                <Link href={`/users/${formData.id}/update-password`}>
+                    <button className='btn-create'>
+                        Mudar Senha
+                    </button>
+                </Link>
+            </div>
+
         </div>
     )
 }

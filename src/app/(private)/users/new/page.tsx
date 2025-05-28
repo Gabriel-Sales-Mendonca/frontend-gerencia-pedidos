@@ -37,7 +37,7 @@ export default function NewUser() {
 
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                toast.error(error.response.data.message);
+                toast.error(error.response.data.message[0]);
             } else {
                 toast.error("Erro inesperado.");
             }
