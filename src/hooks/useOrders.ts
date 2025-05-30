@@ -3,37 +3,15 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 
 import api from '@/services/axios'
-
-interface ServiceOrder {
-  id: number
-  location_id: number
-  destination_id: number | null
-  order_id: number
-  product_id: string
-  location: { name: string }
-  destinationLocation?: { name: string } | null
-  location_start_date?: Date
-  location_delivery_date?: Date
-}
-
-interface GroupedOrder {
-  order_id: number
-  company_id: number
-  company_name: string
-  delivery_date: string | null
-  qtd_product: number
-}
-
-interface Location {
-  id: number
-  name: string
-}
+import { IServiceOrder } from '@/app/interfaces/serviceOrder'
+import { IGroupedOrder } from '@/app/interfaces/order'
+import { ILocation } from '@/app/interfaces/location'
 
 export function useOrders() {
-  const [groupedOrders, setGroupedOrders] = useState<GroupedOrder[]>([])
+  const [groupedOrders, setGroupedOrders] = useState<IGroupedOrder[]>([])
   const [expandedOrders, setExpandedOrders] = useState<{ [key: string]: boolean }>({})
-  const [orderDetails, setOrderDetails] = useState<{ [key: string]: ServiceOrder[] }>({})
-  const [locations, setLocations] = useState<Location[]>([])
+  const [orderDetails, setOrderDetails] = useState<{ [key: string]: IServiceOrder[] }>({})
+  const [locations, setLocations] = useState<ILocation[]>([])
   const [editingDestinationId, setEditingDestinationId] = useState<number | null>(null)
   const [destinationUpdates, setDestinationUpdates] = useState<{ [key: number]: number }>({})
 

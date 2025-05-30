@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 
 import "./globals.css";
 import UserProvider from '@/app/contexts/user-provider'
+import LocationProvider from "./contexts/location-provider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -22,7 +23,9 @@ export default function RootLayout({
       </head>
       <body>
         <UserProvider>
-          {children}
+          <LocationProvider>
+            {children}
+          </LocationProvider>
         </UserProvider>
         <ToastContainer
           position="top-right"

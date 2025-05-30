@@ -4,34 +4,35 @@ import { useContext, useEffect, useState } from "react";
 import Cookies from 'js-cookie';
 import { jwtDecode } from "jwt-decode";
 
-import { UserContext } from "@/app/contexts/user-provider";
-import { IUser } from "@/app/interfaces/user";
+import { LocationContext } from "@/app/contexts/location-provider";
 import api from "@/services/axios";
 import { JwtPayload } from "@/app/types/jwtPayload";
+import { ILocation } from "@/app/interfaces/location";
 
-export function useUser() {
-    const [users, setUsers] = useState<IUser[]>([]);
-    const [isAdmin, setIsAdmin] = useState(false)
-    const [currentPage, setCurrentPage] = useState(1);
-    const [ totalPages, setTotalPages ] = useState(0)
+export function useLocation() {
 
-   const context = useContext(UserContext)
+    const context = useContext(LocationContext)
 
     if (!context) {
-        throw new Error("useUser deve ser usado dentro de um <UserProvider>")
+        throw new Error("useLocation deve ser usado dentro de um <LocationProvider>")
     }
 
-    const { setId, setName, setEmail, setRoles } = context
+    const { setId, setName } = context
+
+    const [locations, setLocations] = useState<ILocation[]>([]);
+    const [isAdmin, setIsAdmin] = useState(false)
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0)
 
     useEffect(() => {
-        const fetchUsers = async () => {
+        const fetchLocations = async () => {
             try {
 
-                const response = await api.get('/users', {
+                const response = await api.get('/locations', {
                     params: { page: currentPage, limit: 5 }
                 })
 
-                setUsers(response.data.users)
+                setLocations(response.data.locations)
                 setTotalPages(response.data.lastPage)
 
                 const token = Cookies.get('token')
@@ -46,24 +47,22 @@ export function useUser() {
             }
         }
 
-        fetchUsers();
+        fetchLocations();
     }, [currentPage]);
 
-    const handleEdit = (user: IUser) => {
-        setId(user.id)
-        setName(user.name)
-        setEmail(user.email)
-        setRoles(user.roles)
+    const handleEdit = (location: ILocation) => {
+        setId(location.id)
+        setName(location.name)
     }
 
     return {
         context,
-        users,
+        locations,
         isAdmin,
         currentPage,
         totalPages,
-        handleEdit,
-        setCurrentPage
+        setCurrentPage,
+        handleEdit
     }
 
 }

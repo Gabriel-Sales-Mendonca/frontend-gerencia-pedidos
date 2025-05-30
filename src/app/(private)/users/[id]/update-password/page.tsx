@@ -1,11 +1,11 @@
 'use client'
 
 import { useRouter } from "next/navigation";
-
-import api from "@/services/axios";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useState } from "react";
+
+import api from "@/services/axios";
 
 export default function UpdatePassword() {
     const router = useRouter()
@@ -49,6 +49,7 @@ export default function UpdatePassword() {
                         onChange={(e) => handleChange(e.target.value)}
                         required
                         className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Senha antiga"
                     />
                 </div>
                 <div>
@@ -59,6 +60,7 @@ export default function UpdatePassword() {
                         name="new-password"
                         required
                         className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Senha nova"
                     />
                 </div>
                 <button
