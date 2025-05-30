@@ -1,14 +1,8 @@
-import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import React from 'react';
 
-interface PaginationProps {
-    currentPage: number;
-    totalPages: number;
-    onPageChange: (page: number) => void;
-}
+import { IPaginationProps, IButtonProps } from '@/app/interfaces/pagination'
 
-export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+export function Pagination({ currentPage, totalPages, onPageChange }: IPaginationProps) {
     const visiblePages = getVisiblePages(currentPage, totalPages);
 
     function getVisiblePages(current: number, total: number): (number | string)[] {
@@ -41,14 +35,18 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
     }
 
     return (
-        <motion.div
-            className="flex flex-wrap justify-center items-center gap-2 mt-6"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-        >
+        <div className="flex flex-wrap justify-center items-center gap-2 mt-6">
             {/* Botões de Navegação */}
-            <PaginationButton icon={<ChevronsLeft size={18} />} disabled={currentPage === 1} onClick={() => handlePageChange(1)} />
-            <PaginationButton icon={<ChevronLeft size={18} />} disabled={currentPage === 1} onClick={() => handlePageChange(currentPage - 1)} />
+            <PaginationButton 
+                icon={<span className="material-symbols-outlined">first_page</span>} 
+                disabled={currentPage === 1} 
+                onClick={() => handlePageChange(1)} 
+            />
+            <PaginationButton 
+                icon={<span className="material-symbols-outlined">chevron_left</span>} 
+                disabled={currentPage === 1} 
+                onClick={() => handlePageChange(currentPage - 1)} 
+            />
 
             {/* Páginas visíveis */}
             {visiblePages.map((page, index) =>
@@ -58,8 +56,8 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
                         onClick={() => handlePageChange(page)}
                         aria-current={page === currentPage}
                         className={`min-w-[36px] px-2 py-1 rounded text-sm transition cursor-pointer ${page === currentPage
-                                ? 'bg-blue-600 text-white font-semibold shadow'
-                                : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                            ? 'bg-blue-600 text-white font-semibold shadow'
+                            : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
                             } hidden sm:inline`}
                     >
                         {page}
@@ -70,24 +68,26 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
             )}
 
             {/* Botões de Navegação */}
-            <PaginationButton icon={<ChevronRight size={18} />} disabled={currentPage === totalPages} onClick={() => handlePageChange(currentPage + 1)} />
-            <PaginationButton icon={<ChevronsRight size={18} />} disabled={currentPage === totalPages} onClick={() => handlePageChange(totalPages)} />
-        </motion.div>
+            <PaginationButton 
+                icon={<span className="material-symbols-outlined">chevron_right</span>} 
+                disabled={currentPage === totalPages} 
+                onClick={() => handlePageChange(currentPage + 1)} 
+            />
+            <PaginationButton 
+                icon={<span className="material-symbols-outlined">last_page</span>} 
+                disabled={currentPage === totalPages} 
+                onClick={() => handlePageChange(totalPages)} 
+            />
+        </div>
     );
 }
 
-interface ButtonProps {
-    icon: React.ReactNode;
-    disabled?: boolean;
-    onClick: () => void;
-}
-
-function PaginationButton({ icon, disabled, onClick }: ButtonProps) {
+function PaginationButton({ icon, disabled, onClick }: IButtonProps) {
     return (
         <button
             onClick={onClick}
             disabled={disabled}
-            className="p-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-700 disabled:opacity-50 cursor-pointer"
+            className="rounded bg-gray-100 hover:bg-gray-200 text-gray-700 disabled:opacity-50 cursor-pointer flex"
         >
             {icon}
         </button>
