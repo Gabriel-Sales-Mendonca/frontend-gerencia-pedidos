@@ -6,13 +6,13 @@ import React, { useState } from "react"
 import { toast } from "react-toastify";
 
 import api from "@/services/axios";
-import { ILocationCreate } from "@/app/interfaces/location"
+import { ICompanyCreate } from "@/app/interfaces/company"
 
 
-export default function NewLocation() {
+export default function NewCompany() {
     const router = useRouter();
 
-    const [formData, setFormData] = useState<ILocationCreate>({
+    const [formData, setFormData] = useState<ICompanyCreate>({
         name: ''
     });
 
@@ -28,9 +28,9 @@ export default function NewLocation() {
         e.preventDefault();
 
         try {
-            const response = await api.post('/locations', formData)
+            const response = await api.post('/companies', formData)
 
-            router.push("/locations")
+            router.push("/companies")
 
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
@@ -43,7 +43,7 @@ export default function NewLocation() {
 
     return (
         <div className="m-6 w-md mx-auto">
-            <h1 className="text-3xl font-bold mb-6 text-center">Criar Localização</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center">Criar empresa</h1>
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>

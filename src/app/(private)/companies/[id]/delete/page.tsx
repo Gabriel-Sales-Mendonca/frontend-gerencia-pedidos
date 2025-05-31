@@ -4,7 +4,7 @@ import { useRouter, useParams } from 'next/navigation';
 
 import api from '@/services/axios';
 
-export default function DeleteLocationModal() {
+export default function DeleteCompanyModal() {
     const router = useRouter();
     const params = useParams()
 
@@ -12,7 +12,7 @@ export default function DeleteLocationModal() {
         try {
             const id = params.id as string
 
-            await api.delete(`/locations/${id}`)
+            await api.delete(`/companies/${id}`)
             router.back();
 
         } catch (e) {

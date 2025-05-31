@@ -1,20 +1,30 @@
 'use client'
 
+import React, { useState, useEffect } from "react"
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react"
 import { toast } from "react-toastify";
 
 import api from "@/services/axios";
-import { ILocationCreate } from "@/app/interfaces/location"
+import { useCompanies } from "@/hooks/useCompanies"
+import { ICompany } from "@/app/interfaces/company"
 
 
-export default function NewLocation() {
+export default function EditCompany() {
+
+    const { context } = useCompanies()
+    const { id, name } = context
+
     const router = useRouter();
 
-    const [formData, setFormData] = useState<ILocationCreate>({
+    const [formData, setFormData] = useState<ICompany>({
+        id: 0,
         name: ''
     });
+
+    useEffect(() => {
+        setFormData({ id: id, name: name })
+    }, [])
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
@@ -28,13 +38,13 @@ export default function NewLocation() {
         e.preventDefault();
 
         try {
-            const response = await api.post('/locations', formData)
+            await api.put(`/companies/${id}`, formData)
 
-            router.push("/locations")
+            router.push("/companies")
 
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
-                toast.error(error.response.data.message[0]);
+                toast.error(error.response.data.message);
             } else {
                 toast.error("Erro inesperado.");
             }
@@ -43,7 +53,7 @@ export default function NewLocation() {
 
     return (
         <div className="m-6 w-md mx-auto">
-            <h1 className="text-3xl font-bold mb-6 text-center">Criar Localização</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center">Editar Empresa</h1>
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
@@ -59,11 +69,12 @@ export default function NewLocation() {
                         placeholder="Nome"
                     />
                 </div>
+
                 <button
                     type="submit"
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
                 >
-                    Criar
+                    Editar
                 </button>
             </form>
         </div>
