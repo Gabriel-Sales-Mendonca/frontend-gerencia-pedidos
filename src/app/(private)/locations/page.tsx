@@ -29,7 +29,7 @@ export default function Location() {
             <ul className='mt-2 space-y-2'>
 
                 <li className='grid grid-cols-5 pl-10'>
-                    <span>ID</span>
+                    <span>Cód.</span>
                     <span>Nome</span>
                 </li>
 

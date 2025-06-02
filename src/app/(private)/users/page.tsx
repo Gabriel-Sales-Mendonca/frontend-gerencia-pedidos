@@ -28,14 +28,16 @@ export default function User() {
 
             <ul className='mt-2 space-y-2'>
 
-                <li className='grid grid-cols-5 pl-10'>
+                <li className='grid grid-cols-6 pl-10'>
+                    <span>Cód.</span>
                     <span>Nome</span>
                     <span>Email</span>
                     <span>Tipo de usuário</span>
                 </li>
 
                 {users.map((user: IUser) => (
-                    <li key={user.id} className='bg-white rounded p-2 pl-10 grid grid-cols-5 hover:bg-gray-100'>
+                    <li key={user.id} className='bg-white rounded p-2 pl-10 grid grid-cols-6 hover:bg-gray-100'>
+                        <span>{user.id}</span>
                         <span>{user.name}</span>
                         <span>{user.email}</span>
                         <span>{user.roles}</span>
