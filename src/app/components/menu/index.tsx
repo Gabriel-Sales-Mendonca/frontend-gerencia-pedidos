@@ -39,7 +39,7 @@ export default function Menu() {
                         </Link>
                     </nav>
                     <nav>
-                        <Link href={"/locations"}>
+                        <Link href={"/users-locations"}>
                             <div className='links-menu'>Usuário x Localização</div>
                         </Link>
                     </nav>

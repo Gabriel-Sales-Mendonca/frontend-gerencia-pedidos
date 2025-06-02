@@ -1,25 +1,15 @@
 'use client'
 
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
 import { jwtDecode } from "jwt-decode";
 
-import { LocationContext } from "@/app/contexts/location-provider";
 import api from "@/services/axios";
 import { JwtPayload } from "@/app/types/jwtPayload";
-import { ILocation } from "@/app/interfaces/location";
+import { IUserLocationRequest } from "@/app/interfaces/userLocation";
 
-export function useCompanies() {
-
-    const context = useContext(LocationContext)
-
-    if (!context) {
-        throw new Error("useCompanies deve ser usado dentro de um <CompanyProvider>")
-    }
-
-    const { setId, setName } = context
-
-    const [companies, setCompanies] = useState<ILocation[]>([]);
+export function useUsersLocations() {
+    const [usersLocations, setUsersLocations] = useState<IUserLocationRequest[]>([]);
     const [isAdmin, setIsAdmin] = useState(false)
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0)
@@ -28,11 +18,11 @@ export function useCompanies() {
         const fetchLocations = async () => {
             try {
 
-                const response = await api.get('/companies', {
+                const response = await api.get('/user-location', {
                     params: { page: currentPage, limit: 5 }
                 })
 
-                setCompanies(response.data.companies)
+                setUsersLocations(response.data.usersLocations)
                 setTotalPages(response.data.lastPage)
 
                 const token = Cookies.get('token')
@@ -50,19 +40,12 @@ export function useCompanies() {
         fetchLocations();
     }, [currentPage]);
 
-    const handleEdit = (location: ILocation) => {
-        setId(location.id)
-        setName(location.name)
-    }
-
     return {
-        context,
-        companies,
+        usersLocations,
         isAdmin,
         currentPage,
         totalPages,
-        setCurrentPage,
-        handleEdit
+        setCurrentPage
     }
 
 }
