@@ -14,11 +14,16 @@ export function useOrders() {
   const [locations, setLocations] = useState<ILocation[]>([])
   const [editingDestinationId, setEditingDestinationId] = useState<number | null>(null)
   const [destinationUpdates, setDestinationUpdates] = useState<{ [key: number]: number }>({})
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0)
 
   useEffect(() => {
     const fetchGroupedOrders = async () => {
-      const response = await api.get('/service-orders/')
-      setGroupedOrders(response.data)
+      const response = await api.get('/service-orders/', {
+         params: { page: currentPage, limit: 5 }
+      })
+      setGroupedOrders(response.data.data)
+      setTotalPages(response.data.lastPage)
     }
 
     const fetchLocations = async () => {
@@ -28,7 +33,7 @@ export function useOrders() {
 
     fetchGroupedOrders()
     fetchLocations()
-  }, [])
+  }, [currentPage])
 
   const getKey = (orderId: number, companyId: number) => `${orderId}-${companyId}`
 
@@ -160,6 +165,9 @@ export function useOrders() {
     locations,
     editingDestinationId,
     destinationUpdates,
+    currentPage,
+    totalPages,
+    setCurrentPage,
     getKey,
     toggleExpand,
     handleDestinationChange,

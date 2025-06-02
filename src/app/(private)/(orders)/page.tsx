@@ -1,8 +1,10 @@
 'use client'
 
+import { useState } from "react"
+
+import { Pagination } from "@/app/components/Pagination"
 import { useOrders } from "@/hooks/useOrders"
 import { formatDate, toUTCDateFromLocalDateInput } from '@/utils/formatDate'
-import { useState } from "react"
 
 export default function Home() {
   const {
@@ -12,6 +14,9 @@ export default function Home() {
     locations,
     editingDestinationId,
     destinationUpdates,
+    currentPage,
+    totalPages,
+    setCurrentPage,
     getKey,
     toggleExpand,
     handleDestinationChange,
@@ -214,6 +219,13 @@ export default function Home() {
           )
         })}
       </ul>
+
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
+
     </div>
   )
 }
