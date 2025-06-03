@@ -5,6 +5,7 @@ import { useState } from "react"
 import { Pagination } from "@/app/components/Pagination"
 import { useOrders } from "@/hooks/useOrders"
 import { formatDate, toUTCDateFromLocalDateInput } from '@/utils/formatDate'
+import Link from "next/link"
 
 export default function Home() {
   const {
@@ -34,9 +35,9 @@ export default function Home() {
     <div className="p-8 w-[90%] mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-center">Pedidos</h1>
 
-      <button className='btn-create'>Novo Pedido</button>
+      <Link href={'/orders/new'} className='btn-create-link'>Novo Pedido</Link>
 
-      <div className="grid grid-cols-[1fr_1fr_1fr_1fr_30px] font-semibold text-gray-700 bg-gray-100 p-4 rounded-t-lg border-b">
+      <div className="grid grid-cols-[1fr_1fr_1fr_1fr_30px] font-semibold text-gray-700 bg-gray-100 mt-6 p-4 rounded-t-lg border-b">
         <div>Pedido</div>
         <div>Empresa</div>
         <div>Data de Entrega</div>
