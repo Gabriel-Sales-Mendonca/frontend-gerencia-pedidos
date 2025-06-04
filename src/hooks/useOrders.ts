@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 import api from '@/services/axios'
 import { IServiceOrder } from '@/app/interfaces/serviceOrder'
@@ -17,10 +18,12 @@ export function useOrders() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0)
 
+  const router = useRouter()
+
   useEffect(() => {
     const fetchGroupedOrders = async () => {
       const response = await api.get('/service-orders/', {
-         params: { page: currentPage, limit: 5 }
+        params: { page: currentPage, limit: 5 }
       })
       setGroupedOrders(response.data.data)
       setTotalPages(response.data.lastPage)
@@ -158,6 +161,21 @@ export function useOrders() {
     await refreshServiceOrder(orderId, companyId)
   }
 
+  const handleDeleteClick = async (orderId: number, companyId: number) => {
+    try {
+      await api.delete('/orders', {
+        params: {
+          orderId: orderId,
+          companyId: companyId
+        }
+      })
+
+      router.push('/')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return {
     groupedOrders,
     expandedOrders,
@@ -175,6 +193,7 @@ export function useOrders() {
     setDestinationUpdates,
     updateDestination,
     updateLocation,
-    updateLocationDeliveryDate
+    updateLocationDeliveryDate,
+    handleDeleteClick
   }
 }

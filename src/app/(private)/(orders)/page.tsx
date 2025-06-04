@@ -1,13 +1,15 @@
 'use client'
 
 import { useState } from "react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 import { Pagination } from "@/app/components/Pagination"
 import { useOrders } from "@/hooks/useOrders"
 import { formatDate, toUTCDateFromLocalDateInput } from '@/utils/formatDate'
-import Link from "next/link"
 
 export default function Home() {
+
   const {
     groupedOrders,
     expandedOrders,
@@ -25,7 +27,8 @@ export default function Home() {
     setDestinationUpdates,
     updateDestination,
     updateLocation,
-    updateLocationDeliveryDate
+    updateLocationDeliveryDate,
+    handleDeleteClick
   } = useOrders()
 
   const [editLocationDeliveryDate, setEditLocationDeliveryDate] = useState<number | null>(null)
@@ -59,11 +62,14 @@ export default function Home() {
                 <div>{order.company_name}</div>
                 <div>{order.delivery_date ?? '—'}</div>
                 <div>{order.qtd_product}</div>
-                <button className="btn-edit ml-3 text-center flex">
+                <Link 
+                  className="btn-delete text-center flex"
+                  href={`/orders/${order.order_id}-${order.company_id}/delete`}
+                >
                   <span className="material-symbols-outlined">
-                    edit_square
+                    delete
                   </span>
-                </button>
+                </Link>
               </div>
 
               {expandedOrders[key] && (
