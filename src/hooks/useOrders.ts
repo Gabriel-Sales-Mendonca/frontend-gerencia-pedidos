@@ -162,18 +162,7 @@ export function useOrders() {
   }
 
   const handleDeleteClick = async (orderId: number, companyId: number) => {
-    try {
-      await api.delete('/orders', {
-        params: {
-          orderId: orderId,
-          companyId: companyId
-        }
-      })
-
-      router.push('/')
-    } catch (error) {
-      console.log(error)
-    }
+    router.push(`/orders/${orderId}-${companyId}/delete`)
   }
 
   return {

@@ -62,14 +62,17 @@ export default function Home() {
                 <div>{order.company_name}</div>
                 <div>{order.delivery_date ?? '—'}</div>
                 <div>{order.qtd_product}</div>
-                <Link 
+                <button 
                   className="btn-delete text-center flex"
-                  href={`/orders/${order.order_id}-${order.company_id}/delete`}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleDeleteClick(order.order_id, order.company_id)
+                  }}
                 >
                   <span className="material-symbols-outlined">
                     delete
                   </span>
-                </Link>
+                </button>
               </div>
 
               {expandedOrders[key] && (
