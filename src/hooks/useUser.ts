@@ -34,10 +34,9 @@ export function useUser() {
                 setUsers(response.data.users)
                 setTotalPages(response.data.lastPage)
 
-                const token = Cookies.get('token')
-                const decode = token ? jwtDecode<JwtPayload>(token) : null
+                const me = await api.get('auth/me')
 
-                if (decode?.roles.includes('ADMIN')) {
+                if (me.data.roles.includes('ADMIN')) {
                     setIsAdmin(true)
                 }
 
