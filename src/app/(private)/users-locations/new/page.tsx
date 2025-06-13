@@ -1,12 +1,14 @@
 'use client'
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 
 import { IUserLocation } from "@/app/interfaces/userLocation"
 import api from "@/services/axios"
 import axios from "axios"
 import { toast } from "react-toastify"
+import { ILocation } from "@/app/interfaces/location"
+import { IUser } from "@/app/interfaces/user"
 
 export default function newUsersLocations() {
     const router = useRouter()
@@ -15,6 +17,29 @@ export default function newUsersLocations() {
         userId: '',
         locationId: ''
     })
+
+    const [locations, setLocations] = useState<ILocation[]>([])
+    const [users, setUsers] = useState<IUser[]>([])
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+
+                const responseLocations = await api.get('/locations')
+                setLocations(responseLocations.data.locations)
+
+                const responseUsers = await api.get('/users')
+                setUsers(responseUsers.data.users)
+
+            } catch (error) {
+                console.log("Erro na busca dos dados" + error)
+            }
+        }
+
+        fetchData();
+    }, [])
+
 
     const handleChange = (e: any) => {
         const { name, value } = e.target
@@ -28,9 +53,9 @@ export default function newUsersLocations() {
         e.preventDefault()
 
         try {
-            const response = await api.post('/user-location', { 
-                userId: Number(formData.userId), 
-                locationId: Number(formData.locationId) 
+            const response = await api.post('/user-location', {
+                userId: Number(formData.userId),
+                locationId: Number(formData.locationId)
             })
 
             router.push('/users-locations')
@@ -49,31 +74,42 @@ export default function newUsersLocations() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="flex justify-between items-start w-full max-w-md mx-auto">
-
                     <div className="flex flex-col w-[48%]">
-                        <label htmlFor="userId" className="mb-1 text-sm font-medium text-gray-700">ID do Usuário</label>
-                        <input
+                        <label htmlFor="userId" className="mb-1 font-medium text-xl text-gray-700 text-center">Usuário</label>
+                        <select
                             id="userId"
-                            type="number"
                             name="userId"
                             value={formData.userId}
                             onChange={handleChange}
-                            className="px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
-                            placeholder="ID usuário" />
+                            className="px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                        >
+                            <option value="">Selecione</option>
+                            {users.map((loc) => (
+                                <option key={loc.id} value={loc.id}>
+                                    {loc.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
 
                     <div className="flex flex-col w-[48%]">
-                        <label htmlFor="locationId" className="mb-1 text-sm font-medium text-gray-700">ID da localização</label>
-                        <input
+                        <label htmlFor="locationId" className="mb-1 font-medium text-xl text-gray-700 text-center">Localização</label>
+                        <select
                             id="locationId"
-                            type="number"
                             name="locationId"
                             value={formData.locationId}
                             onChange={handleChange}
-                            className="px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
-                            placeholder="ID localização" />
+                            className="px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                        >
+                            <option value="">Selecione</option>
+                            {locations.map((loc) => (
+                                <option key={loc.id} value={loc.id}>
+                                    {loc.name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                 </div>
                 <button
