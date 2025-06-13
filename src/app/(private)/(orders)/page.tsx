@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 
 import { Pagination } from "@/app/components/Pagination"
 import { useOrders } from "@/hooks/useOrders"

@@ -43,7 +43,7 @@ export function useOrders() {
   const toggleExpand = async (orderId: number, companyId: number) => {
     const key = getKey(orderId, companyId)
     if (expandedOrders[key]) {
-      setExpandedOrders((prev) => ({ ...prev, [key]: false }))
+      setExpandedOrders({})
     } else {
       if (!orderDetails[key]) {
         const toastId = toast.loading("Buscando...")
@@ -66,7 +66,7 @@ export function useOrders() {
           })
         }
       }
-      setExpandedOrders((prev) => ({ ...prev, [key]: true }))
+      setExpandedOrders({ [key]: true })
     }
   }
 
