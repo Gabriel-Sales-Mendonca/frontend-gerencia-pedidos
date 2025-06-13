@@ -1,13 +1,11 @@
 'use client'
 
-import { useContext, useEffect, useState } from "react";
-import Cookies from 'js-cookie';
-import { jwtDecode } from "jwt-decode";
+import { useContext, useState } from "react";
 
 import { LocationContext } from "@/app/contexts/location-provider";
-import api from "@/services/axios";
-import { JwtPayload } from "@/app/types/jwtPayload";
 import { ILocation } from "@/app/interfaces/location";
+import { usePaginatedData } from "./usePaginatedData";
+import { ICompany } from "@/app/interfaces/company";
 
 export function useCompanies() {
 
@@ -19,36 +17,14 @@ export function useCompanies() {
 
     const { setId, setName } = context
 
-    const [companies, setCompanies] = useState<ILocation[]>([]);
-    const [isAdmin, setIsAdmin] = useState(false)
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0)
 
-    useEffect(() => {
-        const fetchLocations = async () => {
-            try {
-
-                const response = await api.get('/companies', {
-                    params: { page: currentPage, limit: 5 }
-                })
-
-                setCompanies(response.data.companies)
-                setTotalPages(response.data.lastPage)
-
-                const token = Cookies.get('token')
-                const decode = token ? jwtDecode<JwtPayload>(token) : null
-
-                if (decode?.roles.includes('ADMIN')) {
-                    setIsAdmin(true)
-                }
-
-            } catch (error) {
-                console.log("Erro na busca dos dados" + error)
-            }
-        }
-
-        fetchLocations();
-    }, [currentPage]);
+    const { data: companies, isAdmin, totalPages } = usePaginatedData<ICompany>({
+        route: '/companies',
+        currentPage: currentPage,
+        limit: 5,
+        datakey: 'companies'
+    })
 
     const handleEdit = (location: ILocation) => {
         setId(location.id)

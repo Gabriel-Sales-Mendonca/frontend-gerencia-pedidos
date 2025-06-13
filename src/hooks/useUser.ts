@@ -1,21 +1,16 @@
 'use client'
 
-import { useContext, useEffect, useState } from "react";
-import Cookies from 'js-cookie';
-import { jwtDecode } from "jwt-decode";
+import { useContext, useState } from "react";
 
 import { UserContext } from "@/app/contexts/user-provider";
 import { IUser } from "@/app/interfaces/user";
-import api from "@/services/axios";
-import { JwtPayload } from "@/app/types/jwtPayload";
+import { usePaginatedData } from "./usePaginatedData";
 
 export function useUser() {
-    const [users, setUsers] = useState<IUser[]>([]);
-    const [isAdmin, setIsAdmin] = useState(false)
-    const [currentPage, setCurrentPage] = useState(1);
-    const [ totalPages, setTotalPages ] = useState(0)
 
-   const context = useContext(UserContext)
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const context = useContext(UserContext)
 
     if (!context) {
         throw new Error("useUser deve ser usado dentro de um <UserProvider>")
@@ -23,30 +18,12 @@ export function useUser() {
 
     const { setId, setName, setEmail, setRoles } = context
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-
-                const response = await api.get('/users', {
-                    params: { page: currentPage, limit: 5 }
-                })
-
-                setUsers(response.data.users)
-                setTotalPages(response.data.lastPage)
-
-                const me = await api.get('auth/me')
-
-                if (me.data.roles.includes('ADMIN')) {
-                    setIsAdmin(true)
-                }
-
-            } catch (error) {
-                console.log("Erro na busca dos dados" + error)
-            }
-        }
-
-        fetchUsers();
-    }, [currentPage]);
+    const { data: users, isAdmin, totalPages } = usePaginatedData<IUser>({
+        route: '/users',
+        currentPage: currentPage,
+        limit: 5,
+        datakey: 'users'
+    })
 
     const handleEdit = (user: IUser) => {
         setId(user.id)
