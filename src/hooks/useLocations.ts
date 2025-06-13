@@ -21,7 +21,7 @@ export function useLocation() {
     const { data: locations, isAdmin, totalPages  } = usePaginatedData<ILocation>({
         route: '/locations',
         currentPage: currentPage,
-        limit: 5,
+        limit: 10,
         datakey: 'locations'
     })
 

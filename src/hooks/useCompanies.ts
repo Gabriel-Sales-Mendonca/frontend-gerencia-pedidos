@@ -22,7 +22,7 @@ export function useCompanies() {
     const { data: companies, isAdmin, totalPages } = usePaginatedData<ICompany>({
         route: '/companies',
         currentPage: currentPage,
-        limit: 5,
+        limit: 10,
         datakey: 'companies'
     })
 

@@ -23,7 +23,7 @@ export function useOrders() {
   useEffect(() => {
     const fetchGroupedOrders = async () => {
       const response = await api.get('/service-orders/', {
-        params: { page: currentPage, limit: 5 }
+        params: { page: currentPage, limit: 10 }
       })
       setGroupedOrders(response.data.data)
       setTotalPages(response.data.lastPage)

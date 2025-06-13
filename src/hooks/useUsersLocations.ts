@@ -10,7 +10,7 @@ export function useUsersLocations() {
 
     const { data: usersLocations, isAdmin, totalPages } = usePaginatedData<IUserLocationRequest>({
         route: '/user-location',
-        limit: 5,
+        limit: 10,
         currentPage: currentPage,
         datakey: 'usersLocations'
     })

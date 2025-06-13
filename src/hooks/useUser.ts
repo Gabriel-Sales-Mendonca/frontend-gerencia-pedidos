@@ -21,7 +21,7 @@ export function useUser() {
     const { data: users, isAdmin, totalPages } = usePaginatedData<IUser>({
         route: '/users',
         currentPage: currentPage,
-        limit: 5,
+        limit: 10,
         datakey: 'users'
     })
 

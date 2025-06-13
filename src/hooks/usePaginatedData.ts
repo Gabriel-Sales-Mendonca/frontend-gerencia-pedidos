@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import api from "@/services/axios";
 import { IPaginatedData } from "@/app/interfaces/paginatedData";
 
-export function usePaginatedData<T>({ route, currentPage, limit = 5, datakey }: IPaginatedData) {
+export function usePaginatedData<T>({ route, currentPage, limit = 10, datakey }: IPaginatedData) {
 
     const [ data, setData ] = useState<T[]>([]);
     const [ isAdmin, setIsAdmin ] = useState(false);
