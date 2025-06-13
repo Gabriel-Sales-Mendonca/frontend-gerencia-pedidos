@@ -1,29 +1,33 @@
 'use client'
 
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useState } from "react";
-
 import api from "@/services/axios";
 
 export default function UpdatePassword() {
     const router = useRouter()
 
-    const [formData, setFormData] = useState({})
+    const params = useParams()
+    const id = params.id
+
+    const [password, setPassword] = useState('')
     
-    const handleChange = (valor: string) => {
-        console.log(valor)
-        setFormData
+    const handleChange = (e: any) => {
+        setPassword(e.target.value)
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
-            console.log("ok")
+            await api.patch(`/users/update-password/${id}`, {
+                newPassword: password,
+                oldPassword: ''
+            })
 
-            //router.push("/users")
+            router.push("/users")
 
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
@@ -41,26 +45,16 @@ export default function UpdatePassword() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label htmlFor="old-password" className="block text-sm font-medium text-gray-700 mb-1">Senha antiga</label>
-                    <input
-                        type="password"
-                        id="old-password"
-                        name="old-password"
-                        onChange={(e) => handleChange(e.target.value)}
-                        required
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Senha antiga"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="new-password" className="block text-sm font-medium text-gray-700 mb-1">Senha nova</label>
+                    <label htmlFor="new-password" className="block text-sm font-medium text-gray-700 mb-1">Nova senha</label>
                     <input
                         type="password"
                         id="new-password"
                         name="new-password"
+                        value={password}
+                        onChange={handleChange}
                         required
                         className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        placeholder="Senha nova"
+                        placeholder="Nova senha"
                     />
                 </div>
                 <button
