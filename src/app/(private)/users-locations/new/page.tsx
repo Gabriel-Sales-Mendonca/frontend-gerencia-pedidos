@@ -26,11 +26,11 @@ export default function newUsersLocations() {
         const fetchData = async () => {
             try {
 
-                const responseLocations = await api.get('/locations')
-                setLocations(responseLocations.data.locations)
+                const responseLocations = await api.get('/locations/all')
+                setLocations(responseLocations.data)
 
-                const responseUsers = await api.get('/users')
-                setUsers(responseUsers.data.users)
+                const responseUsers = await api.get('/users/all')
+                setUsers(responseUsers.data)
 
             } catch (error) {
                 console.log("Erro na busca dos dados" + error)

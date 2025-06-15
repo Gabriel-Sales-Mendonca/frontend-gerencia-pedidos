@@ -30,8 +30,8 @@ export function useOrders() {
     }
 
     const fetchLocations = async () => {
-      const res = await api.get('/locations')
-      setLocations(res.data.locations)
+      const res = await api.get('/locations/all')
+      setLocations(res.data)
     }
 
     fetchGroupedOrders()
