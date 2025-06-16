@@ -7,6 +7,7 @@ import api from '@/services/axios'
 import { IServiceOrder } from '@/app/interfaces/serviceOrder'
 import { IGroupedOrder } from '@/app/interfaces/order'
 import { ILocation } from '@/app/interfaces/location'
+import { convertToUTC } from '@/utils/formatDate'
 
 export function useOrders() {
   const [groupedOrders, setGroupedOrders] = useState<IGroupedOrder[]>([])
@@ -30,6 +31,15 @@ export function useOrders() {
         const resServiceOrders = await api.get('/service-orders/', {
           params: { page: currentPage, limit: 10 }
         })
+
+        resServiceOrders.data.data.map((order: IGroupedOrder) => {
+          if (order.delivery_date) {
+            if (new Date(convertToUTC(order.delivery_date)) < new Date()) {
+              order.expired = true
+            }
+          }
+        })
+
         setGroupedOrders(resServiceOrders.data.data)
         setTotalPages(resServiceOrders.data.lastPage)
 

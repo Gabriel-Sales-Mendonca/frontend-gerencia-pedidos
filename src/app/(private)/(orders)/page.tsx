@@ -5,7 +5,7 @@ import Link from "next/link"
 
 import { Pagination } from "@/app/components/Pagination"
 import { useOrders } from "@/hooks/useOrders"
-import { formatDate, toUTCDateFromLocalDateInput } from '@/utils/formatDate'
+import { formatDate, toUTCDateFromLocalDateInput, convertToUTC } from '@/utils/formatDate'
 
 export default function Home() {
 
@@ -45,11 +45,12 @@ export default function Home() {
       <form onSubmit={handleSubmitSearch}>
         <div className="mt-10 flex w-fit items-stretch">
           <input
-            type="text"
+            type="number"
             value={searchOrder}
             onChange={handleChangeSearchOrder}
             placeholder="Nº do pedido"
             className="h-10 px-3 text-black border border-gray-400 rounded-l-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-300"
+            required
           />
           <button type="submit" className="h-10 w-10 bg-blue-500 rounded-r-md flex items-center justify-center cursor-pointer">
             <span className="material-symbols-outlined text-white">
@@ -74,8 +75,9 @@ export default function Home() {
             <li key={key}>
 
               <div
+                
                 onClick={() => toggleExpand(order.order_id, order.company_id)}
-                className="grid grid-cols-[1fr_1fr_1fr_1fr_30px] p-4 bg-white hover:bg-gray-50 transition-all rounded-md shadow-sm cursor-pointer"
+                className={`grid grid-cols-[1fr_1fr_1fr_1fr_30px] p-4 transition-all rounded-md shadow-sm cursor-pointer ${order.expired ? 'bg-red-300 hover:bg-red-400' : 'bg-white hover:bg-gray-50'}`}
               >
                 <div>{order.order_id}</div>
                 <div>{order.company_name}</div>
@@ -88,7 +90,7 @@ export default function Home() {
                     handleDeleteClick(order.order_id, order.company_id)
                   }}
                 >
-                  <span className="material-symbols-outlined">
+                  <span className={`material-symbols-outlined ${order.expired ? 'text-black' : ''}`}>
                     delete
                   </span>
                 </button>

@@ -19,3 +19,10 @@ export function toUTCDateFromLocalDateInput(dateStr: string): Date {
 
   return localDate
 }
+
+
+export function convertToUTC(date: string) {
+  const [ day, month, year ] = date.split('/')
+
+  return `${year}-${month}-${day}`
+}

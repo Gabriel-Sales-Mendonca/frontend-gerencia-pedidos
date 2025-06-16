@@ -28,6 +28,9 @@ export default function CreateOrderPage() {
     }
 
     const handleProductChange = (index: number, value: string) => {
+
+        value = value.trim().toUpperCase()
+
         const formDataProducts = [...formData.products]
         formDataProducts[index] = { id: value, name: null }
 
