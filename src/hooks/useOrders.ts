@@ -17,25 +17,45 @@ export function useOrders() {
   const [destinationUpdates, setDestinationUpdates] = useState<{ [key: number]: number }>({})
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0)
+  const [searchOrder, setSearchOrder] = useState('')
 
   const router = useRouter()
 
   useEffect(() => {
-    const fetchGroupedOrders = async () => {
-      const response = await api.get('/service-orders/', {
-        params: { page: currentPage, limit: 10 }
-      })
-      setGroupedOrders(response.data.data)
-      setTotalPages(response.data.lastPage)
+    const toastId = toast.loading("Buscando...")
+
+    const fetchData = async () => {
+      try {
+
+        const resServiceOrders = await api.get('/service-orders/', {
+          params: { page: currentPage, limit: 10 }
+        })
+        setGroupedOrders(resServiceOrders.data.data)
+        setTotalPages(resServiceOrders.data.lastPage)
+
+        const resLocations = await api.get('/locations/all')
+        setLocations(resLocations.data)
+
+        toast.update(toastId, {
+          render: "Dados carregados",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+        })
+
+      } catch (err) {
+        toast.update(toastId, {
+          render: "Erro ao buscar dados",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+        })
+      }
     }
 
-    const fetchLocations = async () => {
-      const res = await api.get('/locations/all')
-      setLocations(res.data)
-    }
-
-    fetchGroupedOrders()
-    fetchLocations()
+    fetchData()
   }, [currentPage])
 
   const getKey = (orderId: number, companyId: number) => `${orderId}-${companyId}`
@@ -49,7 +69,7 @@ export function useOrders() {
         const toastId = toast.loading("Buscando...")
 
         try {
-          const res = await api.get(`/service-orders/by-order/${orderId}?company_id=${companyId}`)
+          const res = await api.get(`/service-orders/details-by-order/${orderId}?company_id=${companyId}`)
           setOrderDetails((prev) => ({ ...prev, [key]: res.data }))
 
           toast.update(toastId, {
@@ -165,6 +185,55 @@ export function useOrders() {
     router.push(`/orders/${orderId}-${companyId}/delete`)
   }
 
+  const handleChangeSearchOrder = (e: any) => {
+    const { value } = e.target
+    setSearchOrder(value)
+  }
+
+  const handleSubmitSearch = async (e: any) => {
+    e.preventDefault()
+
+    const toastId = toast.loading("Buscando...")
+
+    try {
+
+      const response = await api.get(`service-orders/by-order/${searchOrder}`)
+
+      setGroupedOrders(response.data)
+
+      if (response.data.length < 1) {
+        toast.update(toastId, {
+          render: 'Pedido não encontrado',
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+        })
+      } else {
+        toast.update(toastId, {
+          render: 'Pedido buscado',
+          type: 'success',
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+        })
+      }
+
+    } catch (error) {
+
+      if (error instanceof axios.AxiosError && error.response) {
+        toast.update(toastId, {
+          render: error.response.data.message,
+          type: 'error',
+          isLoading: false,
+          autoClose: 3000,
+          closeOnClick: true,
+        })
+      }
+
+    }
+  }
+
   return {
     groupedOrders,
     expandedOrders,
@@ -174,6 +243,7 @@ export function useOrders() {
     destinationUpdates,
     currentPage,
     totalPages,
+    searchOrder,
     setCurrentPage,
     getKey,
     toggleExpand,
@@ -183,6 +253,8 @@ export function useOrders() {
     updateDestination,
     updateLocation,
     updateLocationDeliveryDate,
-    handleDeleteClick
+    handleDeleteClick,
+    handleChangeSearchOrder,
+    handleSubmitSearch
   }
 }
