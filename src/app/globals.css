@@ -27,7 +27,7 @@ body {
 
 @layer utilities {
   .links-menu {
-      @apply text-white text-center text-sm p-2 border-b border-gray-300 shadow-lg hover:bg-orange-400;
+      @apply text-white text-center text-base p-2 border-b border-gray-300 shadow-lg hover:bg-orange-400;
   }
 }
 
