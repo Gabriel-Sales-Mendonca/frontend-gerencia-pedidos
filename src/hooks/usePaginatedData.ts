@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 
 import api from "@/services/axios";
+import Cookies from 'js-cookie';
 import { IPaginatedData } from "@/app/interfaces/paginatedData";
+import { JwtPayload } from "@/app/types/jwtPayload";
+import { jwtDecode } from "jwt-decode";
 
 export function usePaginatedData<T>({ route, currentPage, limit = 10, datakey }: IPaginatedData) {
 
@@ -20,9 +23,10 @@ export function usePaginatedData<T>({ route, currentPage, limit = 10, datakey }:
                 setData(response.data[datakey])
                 setTotalPages(response.data.lastPage)
 
-                const me = await api.get('auth/me')
+                const token = Cookies.get('token')
+                const decode = token ? jwtDecode<JwtPayload>(token) : null
 
-                if (me.data.roles.includes('ADMIN')) {
+                if (decode?.roles.includes('ADMIN')) {
                     setIsAdmin(true)
                 }
 
