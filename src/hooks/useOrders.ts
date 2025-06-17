@@ -175,7 +175,7 @@ export function useOrders() {
   }
 
   const refreshServiceOrder = async (orderId: number, companyId: number) => {
-    const res = await api.get(`/service-orders/by-order/${orderId}?company_id=${companyId}`)
+    const res = await api.get(`/service-orders/details-by-order/${orderId}?company_id=${companyId}`)
     const key = getKey(orderId, companyId)
     setOrderDetails((prev) => ({
       ...prev,
