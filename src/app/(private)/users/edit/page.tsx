@@ -26,7 +26,6 @@ export default function EditUser() {
     });
 
     useEffect(() => {
-        console.log("ID do usuário: " + id)
         setFormData({ id: id, name: name, email: email, roles: roles })
     }, [])
 
@@ -42,7 +41,6 @@ export default function EditUser() {
         e.preventDefault();
 
         try {
-            console.log(formData)
             await api.patch(`/users/${id}`, formData)
 
             router.push("/users")

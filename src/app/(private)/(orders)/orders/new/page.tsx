@@ -11,6 +11,7 @@ import { toUTCDateFromLocalDateInput } from '@/utils/formatDate'
 
 export default function CreateOrderPage() {
     const router = useRouter()
+    const [isPHOn, setIsPHOn] = useState(true)
 
     const [formData, setFormData] = useState<IOrderCreate>({
         order_id: 0,
@@ -28,6 +29,15 @@ export default function CreateOrderPage() {
     }
 
     const handleProductChange = (index: number, value: string) => {
+
+        value = value.trim()
+
+        if (isPHOn) {
+            if (!value.includes('PH-')) {
+                value = 'PH-' + value
+            }
+        }
+
         const formDataProducts = [...formData.products]
         formDataProducts[index] = { id: value, name: null }
 
@@ -111,6 +121,19 @@ export default function CreateOrderPage() {
                         onChange={handleChange}
                         className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
+                </div>
+
+                <div className='h-8 mb-1 flex'>
+                    <span className='mr-3 flex items-center'>Preencher PH</span>
+                    <button type='button' onClick={() => setIsPHOn(!isPHOn)}>
+                        <span
+                            className={`material-symbols-outlined cursor-pointer ${isPHOn ? 'text-blue-500' : 'text-gray-400'
+                                }`}
+                            style={{ fontSize: '32px', lineHeight: 1 }}
+                        >
+                            {isPHOn ? 'toggle_on' : 'toggle_off'}
+                        </span>
+                    </button>
                 </div>
 
                 <div>

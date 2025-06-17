@@ -2,11 +2,10 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 
 import { Pagination } from "@/app/components/Pagination"
 import { useOrders } from "@/hooks/useOrders"
-import { formatDate, toUTCDateFromLocalDateInput } from '@/utils/formatDate'
+import { formatDate, toUTCDateFromLocalDateInput, convertToUTC } from '@/utils/formatDate'
 
 export default function Home() {
 
@@ -19,6 +18,7 @@ export default function Home() {
     destinationUpdates,
     currentPage,
     totalPages,
+    searchOrder,
     setCurrentPage,
     getKey,
     toggleExpand,
@@ -28,7 +28,9 @@ export default function Home() {
     updateDestination,
     updateLocation,
     updateLocationDeliveryDate,
-    handleDeleteClick
+    handleDeleteClick,
+    handleChangeSearchOrder,
+    handleSubmitSearch
   } = useOrders()
 
   const [editLocationDeliveryDate, setEditLocationDeliveryDate] = useState<number | null>(null)
@@ -39,6 +41,24 @@ export default function Home() {
       <h1 className="text-3xl font-bold mb-6 text-center">Pedidos</h1>
 
       <Link href={'/orders/new'} className='btn-create-link'>Novo Pedido</Link>
+
+      <form onSubmit={handleSubmitSearch}>
+        <div className="mt-10 flex w-fit items-stretch">
+          <input
+            type="number"
+            value={searchOrder}
+            onChange={handleChangeSearchOrder}
+            placeholder="Nº do pedido"
+            className="h-10 px-3 text-black border border-gray-400 rounded-l-md focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-300"
+            required
+          />
+          <button type="submit" className="h-10 w-10 bg-blue-500 rounded-r-md flex items-center justify-center cursor-pointer">
+            <span className="material-symbols-outlined text-white">
+              search
+            </span>
+          </button>
+        </div>
+      </form>
 
       <div className="grid grid-cols-[1fr_1fr_1fr_1fr_30px] font-semibold text-gray-700 bg-gray-100 mt-6 p-4 rounded-t-lg border-b">
         <div>Pedido</div>
@@ -55,21 +75,22 @@ export default function Home() {
             <li key={key}>
 
               <div
+                
                 onClick={() => toggleExpand(order.order_id, order.company_id)}
-                className="grid grid-cols-[1fr_1fr_1fr_1fr_30px] p-4 bg-white hover:bg-gray-50 transition-all rounded-md shadow-sm cursor-pointer"
+                className={`grid grid-cols-[1fr_1fr_1fr_1fr_30px] p-4 transition-all rounded-md shadow-sm cursor-pointer ${order.expired ? 'bg-red-300 hover:bg-red-400' : 'bg-white hover:bg-gray-100'}`}
               >
                 <div>{order.order_id}</div>
                 <div>{order.company_name}</div>
                 <div>{order.delivery_date ?? '—'}</div>
                 <div>{order.qtd_product}</div>
-                <button 
+                <button
                   className="btn-delete text-center flex"
                   onClick={(e) => {
                     e.stopPropagation()
                     handleDeleteClick(order.order_id, order.company_id)
                   }}
                 >
-                  <span className="material-symbols-outlined">
+                  <span className={`material-symbols-outlined ${order.expired ? 'text-black' : ''}`}>
                     delete
                   </span>
                 </button>

@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie';
 import { toast } from 'react-toastify'
 import axios from 'axios';
 
@@ -28,16 +27,7 @@ export default function Login() {
         e.preventDefault();
 
         try {
-            const response = await api.post('/auth/login', formData)
-
-            const token = response.data.access_token;
-
-            Cookies.set('token', token, {
-                path: '/',
-                secure: false,
-                sameSite: 'strict',
-                expires: 7
-            })
+            await api.post('/auth/login', formData)
 
             router.push("/")
 

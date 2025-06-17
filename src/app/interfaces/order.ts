@@ -6,6 +6,7 @@ export interface IGroupedOrder {
   company_name: string
   delivery_date: string | null
   qtd_product: number
+  expired: boolean
 }
 
 export interface IOrderCreate {

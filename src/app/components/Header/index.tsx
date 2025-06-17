@@ -1,10 +1,19 @@
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+
+import api from '@/services/axios'
 
 export default function Header() {
+    const router = useRouter()
 
-    const handleLogOut = () => {
-        document.cookie = 'token=; Max-Age=0; path=/;'
-        window.location.reload()
+    const handleLogOut = async () => {
+        try {
+            await api.post('/auth/logout') // certifique-se do caminho correto
+            router.push('/login') // redireciona para login após logout
+        } catch (error) {
+            console.error('Erro ao deslogar', error)
+            alert('Erro ao deslogar, tente novamente.')
+        }
     }
 
     return (
