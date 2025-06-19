@@ -2,8 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const api = axios.create({
-  baseURL: 'https://api-gerencia-pedidos.vercel.app',
-
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
 
 // Interceptor para adicionar o token antes de cada requisição
