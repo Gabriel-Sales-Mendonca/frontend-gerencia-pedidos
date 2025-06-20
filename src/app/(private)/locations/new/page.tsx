@@ -33,8 +33,9 @@ export default function NewLocation() {
             router.push("/locations")
 
         } catch (error) {
+            console.log(error)
             if (axios.isAxiosError(error) && error.response) {
-                toast.error(error.response.data.message[0]);
+                toast.error(error.response.data.message);
             } else {
                 toast.error("Erro inesperado.");
             }
