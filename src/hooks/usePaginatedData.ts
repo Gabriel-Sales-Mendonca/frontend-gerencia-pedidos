@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { IPaginatedData } from "@/app/interfaces/paginatedData";
 import { JwtPayload } from "@/app/types/jwtPayload";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 
 export function usePaginatedData<T>({ route, currentPage, limit = 10, datakey }: IPaginatedData) {
 
@@ -31,7 +32,7 @@ export function usePaginatedData<T>({ route, currentPage, limit = 10, datakey }:
                 }
 
             } catch (error) {
-                console.log("Erro na busca dos dados" + error)
+                toast.error("Erro ao buscar dados")
             }
         }
 
