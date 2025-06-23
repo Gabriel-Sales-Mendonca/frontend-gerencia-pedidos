@@ -25,33 +25,35 @@ export default function UsersLocations() {
                 Novo relacionamento
             </button>
 
-            <ul className='mt-2 space-y-2'>
+            <div className='overflow-x-auto'>
+                <ul className='min-w-[600px] mt-2 space-y-2'>
 
-                <li className='grid grid-cols-6 pl-10'>
-                    <span>Cód. Usuário</span>
-                    <span>Nome Usuário</span>
-                    <span>Cód. Localização</span>
-                    <span>Nome Localização</span>
-                </li>
-
-                {usersLocations.map((userLocation: IUserLocationRequest) => (
-                    <li key={`${userLocation.user.id}-${userLocation.location.id}`} className='bg-white dark:bg-neutral-600 dark:hover:bg-neutral-700 border border-gray-400 rounded p-2 pl-10 grid grid-cols-6 hover:bg-gray-100'>
-                        <span>{userLocation.user.id}</span>
-                        <span>{userLocation.user.name}</span>
-                        <span>{userLocation.location.id}</span>
-                        <span>{userLocation.location.name}</span>
-
-                        <button
-                            className='btn-delete'
-                            onClick={e => handleCheckAdminAndNavigate(e, `/users-locations/${userLocation.user.id}-${userLocation.location.id}/delete`, isAdmin)}
-                        >
-                            <span className="material-symbols-outlined">
-                                delete
-                            </span>
-                        </button>
+                    <li className='grid grid-cols-6 pl-10'>
+                        <span>Cód. Usuário</span>
+                        <span>Nome Usuário</span>
+                        <span>Cód. Localização</span>
+                        <span>Nome Localização</span>
                     </li>
-                ))}
-            </ul>
+
+                    {usersLocations.map((userLocation: IUserLocationRequest) => (
+                        <li key={`${userLocation.user.id}-${userLocation.location.id}`} className='bg-white dark:bg-neutral-600 dark:hover:bg-neutral-700 border border-gray-400 rounded p-2 pl-10 grid grid-cols-6 hover:bg-gray-100'>
+                            <span>{userLocation.user.id}</span>
+                            <span>{userLocation.user.name}</span>
+                            <span>{userLocation.location.id}</span>
+                            <span>{userLocation.location.name}</span>
+
+                            <button
+                                className='btn-delete'
+                                onClick={e => handleCheckAdminAndNavigate(e, `/users-locations/${userLocation.user.id}-${userLocation.location.id}/delete`, isAdmin)}
+                            >
+                                <span className="material-symbols-outlined">
+                                    delete
+                                </span>
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
 
             <Pagination
                 currentPage={currentPage}

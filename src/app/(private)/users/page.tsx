@@ -26,42 +26,44 @@ export default function User() {
                 Novo usuário
             </button>
 
-            <ul className='mt-2 space-y-2'>
+            <div className='overflow-x-auto'>
+                <ul className='min-w-[600px] mt-2 space-y-2'>
 
-                <li className='grid grid-cols-6 pl-10'>
-                    <span>Cód.</span>
-                    <span>Nome</span>
-                    <span>Email</span>
-                    <span>Tipo de usuário</span>
-                </li>
-
-                {users.map((user: IUser) => (
-                    <li key={user.id} className='bg-white dark:bg-neutral-600 dark:hover:bg-neutral-700 hover:bg-neutral-100 border border-gray-400 rounded p-2 pl-10 grid grid-cols-6'>
-                        <span>{user.id}</span>
-                        <span>{user.name}</span>
-                        <span>{user.email}</span>
-                        <span>{user.roles}</span>
-
-                        <button 
-                            className='btn-edit'
-                            onClick={async (e) => {
-                                await handleEdit(user)
-                                handleCheckAdminAndNavigate(e, 'users/edit', isAdmin)
-                            }}
-                        >
-                            <span className="material-symbols-outlined">
-                                edit_square
-                            </span>
-                        </button>
-
-                        <button className='btn-delete' onClick={e => handleCheckAdminAndNavigate(e, `/users/${user.id}/delete`, isAdmin)}>
-                            <span className="material-symbols-outlined">
-                                delete
-                            </span>
-                        </button>
+                    <li className='grid grid-cols-6 pl-10'>
+                        <span>Cód.</span>
+                        <span>Nome</span>
+                        <span>Email</span>
+                        <span>Tipo de usuário</span>
                     </li>
-                ))}
-            </ul>
+
+                    {users.map((user: IUser) => (
+                        <li key={user.id} className='bg-white dark:bg-neutral-600 dark:hover:bg-neutral-700 hover:bg-neutral-100 border border-gray-400 rounded p-2 pl-10 grid grid-cols-6'>
+                            <span>{user.id}</span>
+                            <span>{user.name}</span>
+                            <span>{user.email}</span>
+                            <span>{user.roles}</span>
+
+                            <button 
+                                className='btn-edit'
+                                onClick={async (e) => {
+                                    await handleEdit(user)
+                                    handleCheckAdminAndNavigate(e, 'users/edit', isAdmin)
+                                }}
+                            >
+                                <span className="material-symbols-outlined">
+                                    edit_square
+                                </span>
+                            </button>
+
+                            <button className='btn-delete' onClick={e => handleCheckAdminAndNavigate(e, `/users/${user.id}/delete`, isAdmin)}>
+                                <span className="material-symbols-outlined">
+                                    delete
+                                </span>
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
 
             <Pagination
                 currentPage={currentPage}

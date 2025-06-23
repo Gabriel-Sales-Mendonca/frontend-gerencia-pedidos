@@ -13,7 +13,7 @@ export default function Menu() {
 
     return  (
         <>
-            <button onClick={handleClose} className='absolute text-white font-bold top-8 left-4 cursor-pointer'>
+            <button onClick={handleClose} className='absolute text-white font-bold top-5 md:top-8 left-4 cursor-pointer'>
                 {isVisible ? 
                     <span className='material-symbols-outlined'>close</span> 
                     :
