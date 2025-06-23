@@ -30,6 +30,8 @@ export default function NewLocation() {
         try {
             const response = await api.post('/locations', formData)
 
+            toast.success("Localização criada.")
+
             router.push("/locations")
 
         } catch (error) {
@@ -48,7 +50,7 @@ export default function NewLocation() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-neutral-100 mb-1">Nome</label>
                     <input
                         type="text"
                         id="name"
@@ -56,7 +58,7 @@ export default function NewLocation() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 bg-neutral-100 dark:bg-neutral-600 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Nome"
                     />
                 </div>

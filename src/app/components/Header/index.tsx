@@ -7,7 +7,7 @@ export default function Header() {
     }
 
     return (
-        <div className='flex items-center justify-center h-16 fixed top-0 left-0 w-full bg-blue-800 border-b border-white shadow-lg'>
+        <div className='flex items-center justify-center h-16 fixed top-0 left-0 w-full bg-blue-800 dark:bg-neutral-700 border-b border-white dark:border-neutral-700 shadow-lg'>
             <Link href={"/"}>
                 <div className='flex'>
                     <h1 className='text-center text-white font-bold text-lg ml-6 mr-6'>PRÓ - HOSPITALAR</h1>

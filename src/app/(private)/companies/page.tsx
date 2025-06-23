@@ -34,7 +34,7 @@ export default function Location() {
                 </li>
 
                 {companies.map((company: ICompany) => (
-                    <li key={company.id} className='bg-white rounded p-2 pl-10 grid grid-cols-5 hover:bg-gray-100'>
+                    <li key={company.id} className='bg-white dark:bg-neutral-600 dark:hover:bg-neutral-700 hover:bg-neutral-100 border border-gray-400 rounded p-2 pl-10 grid grid-cols-5'>
                         <span>{company.id}</span>
                         <span>{company.name}</span>
 

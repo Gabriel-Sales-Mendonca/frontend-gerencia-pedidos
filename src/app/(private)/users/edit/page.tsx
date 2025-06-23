@@ -43,6 +43,8 @@ export default function EditUser() {
         try {
             await api.patch(`/users/${id}`, formData)
 
+            toast.success("Usuário atualizado.")
+
             router.push("/users")
 
         } catch (error) {
@@ -60,7 +62,7 @@ export default function EditUser() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-neutral-100 mb-1">Nome</label>
                     <input
                         type="text"
                         id="name"
@@ -68,12 +70,12 @@ export default function EditUser() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 bg-neutral-100 dark:bg-neutral-600 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Nome"
                     />
                 </div>
                 <div>
-                    <label htmlFor="roles" className="block text-sm font-medium text-gray-700 mb-1">Tipo de usuário</label>
+                    <label htmlFor="roles" className="block text-sm font-medium text-gray-700 dark:text-neutral-100 mb-1">Tipo de usuário</label>
                     <select
                         name="roles"
                         id="roles"
@@ -81,7 +83,7 @@ export default function EditUser() {
                         onChange={(e) =>
                             setFormData(prev => ({ ...prev, roles: [e.target.value] }))
                         }
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 bg-neutral-100 dark:bg-neutral-600 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         <option value="">Selecione</option>
                         <option value="ADMIN">ADMIN</option>

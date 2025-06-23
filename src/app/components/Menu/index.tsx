@@ -21,7 +21,7 @@ export default function Menu() {
                 }
             </button>
             {isVisible && (
-                <div className="h-[100vh] w-[15%] bg-blue-800 flex-shrink-0">
+                <div className="h-[100vh] w-full xl:w-[15%] sm:w-[40%] md:w-[25%] bg-blue-800 dark:bg-neutral-700 flex-shrink-0">
                     <h2 className="text-white text-center font-bold text-lg border-b p-3">MENU</h2>
                     <nav>
                         <Link href={"/"}>

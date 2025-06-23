@@ -56,7 +56,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: IPaginatio
                         onClick={() => handlePageChange(page)}
                         aria-current={page === currentPage}
                         className={`min-w-[36px] px-2 py-1 rounded text-sm transition cursor-pointer ${page === currentPage
-                            ? 'bg-blue-600 text-white font-semibold shadow'
+                            ? 'bg-blue-500 hover:bg-blue-600 text-white font-semibold shadow'
                             : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
                             } hidden sm:inline`}
                     >

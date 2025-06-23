@@ -13,7 +13,7 @@ export default function PublicLayout({
       <Header />
       <div className="h-full flex overflow-hidden mt-16">
         <Menu />
-        <div className="overflow-y-auto flex-grow">
+        <div className="bg-neutral-50 dark:bg-neutral-800 text-gray-900 dark:text-gray-100 overflow-y-auto flex-grow">
           {children}
         </div>
       </div>

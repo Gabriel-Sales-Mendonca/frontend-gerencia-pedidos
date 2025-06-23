@@ -73,6 +73,9 @@ export default function CreateOrderPage() {
             }
 
             await api.post('/orders', order)
+
+            toast.success("Pedido criado.")
+
             router.push('/')
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
@@ -84,7 +87,7 @@ export default function CreateOrderPage() {
     }
 
     return (
-        <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-md space-y-6">
+        <div className="max-w-xl mx-auto mt-10 p-6 bg-white dark:bg-neutral-600 text-neutral-900 dark:text-neutral-100 rounded-2xl shadow-md space-y-6">
             <h1 className="text-3xl font-bold mb-6 text-center">Criar Pedido</h1>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -95,7 +98,7 @@ export default function CreateOrderPage() {
                         name="order_id"
                         value={formData.order_id <= 0 ? '' : formData.order_id}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                     />
                 </div>
@@ -107,7 +110,7 @@ export default function CreateOrderPage() {
                         name="company_id"
                         value={formData.company_id <= 0 ? '' : formData.company_id}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                     />
                 </div>
@@ -119,7 +122,7 @@ export default function CreateOrderPage() {
                         name="delivery_date"
                         value={formData.delivery_date}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
@@ -127,7 +130,7 @@ export default function CreateOrderPage() {
                     <span className='mr-3 flex items-center'>Preencher PH</span>
                     <button type='button' onClick={() => setIsPHOn(!isPHOn)}>
                         <span
-                            className={`material-symbols-outlined cursor-pointer ${isPHOn ? 'text-blue-500' : 'text-gray-400'
+                            className={`material-symbols-outlined cursor-pointer ${isPHOn ? 'text-blue-500 dark:text-neutral-100' : 'text-gray-400'
                                 }`}
                             style={{ fontSize: '32px', lineHeight: 1 }}
                         >
@@ -144,7 +147,7 @@ export default function CreateOrderPage() {
                                 type="text"
                                 value={product.id}
                                 onChange={(e) => handleProductChange(index, e.target.value)}
-                                className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
                                 placeholder={`Código do Produto ${index + 1}`}
                             />
@@ -164,7 +167,7 @@ export default function CreateOrderPage() {
                     <button
                         type="button"
                         onClick={addProductField}
-                        className="text-blue-600 hover:underline text-sm cursor-pointer"
+                        className="text-blue-600 dark:text-neutral-100 hover:underline text-sm cursor-pointer"
                     >
                         <span className="material-symbols-outlined">
                             add_circle

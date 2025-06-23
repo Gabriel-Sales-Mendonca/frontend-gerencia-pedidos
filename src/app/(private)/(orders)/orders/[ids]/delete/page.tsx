@@ -24,7 +24,7 @@ export default function DeleteCompanyModal() {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/50 text-black flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg max-w-sm w-full">
                 <h2 className="text-lg font-bold mb-4">Confirmar exclusão</h2>
                 <p>Tem certeza que deseja deletar o pedido?</p>

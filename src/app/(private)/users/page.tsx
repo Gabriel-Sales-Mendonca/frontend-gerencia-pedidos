@@ -36,7 +36,7 @@ export default function User() {
                 </li>
 
                 {users.map((user: IUser) => (
-                    <li key={user.id} className='bg-white rounded p-2 pl-10 grid grid-cols-6 hover:bg-gray-100'>
+                    <li key={user.id} className='bg-white dark:bg-neutral-600 dark:hover:bg-neutral-700 hover:bg-neutral-100 border border-gray-400 rounded p-2 pl-10 grid grid-cols-6'>
                         <span>{user.id}</span>
                         <span>{user.name}</span>
                         <span>{user.email}</span>

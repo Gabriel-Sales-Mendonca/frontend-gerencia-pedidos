@@ -45,7 +45,7 @@ export default function UpdatePassword() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label htmlFor="new-password" className="block text-sm font-medium text-gray-700 mb-1">Nova senha</label>
+                    <label htmlFor="new-password" className="block text-sm font-medium text-gray-700 dark:text-neutral-100 mb-1">Nova senha</label>
                     <input
                         type="password"
                         id="new-password"
@@ -53,7 +53,7 @@ export default function UpdatePassword() {
                         value={password}
                         onChange={handleChange}
                         required
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 bg-neutral-100 dark:bg-neutral-600 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Nova senha"
                     />
                 </div>

@@ -44,5 +44,5 @@ body {
 }
 
 .btn-delete {
-  @apply text-red-500 hover:text-red-600 cursor-pointer my-auto
+  @apply text-red-500 hover:text-red-600 dark:text-white cursor-pointer my-auto
 }

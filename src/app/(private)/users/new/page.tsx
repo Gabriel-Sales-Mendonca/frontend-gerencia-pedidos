@@ -33,6 +33,8 @@ export default function NewUser() {
         try {
             const response = await api.post('/users', formData)
 
+            toast.success("Usuário criado.")
+
             router.push("/users")
 
         } catch (error) {
@@ -45,12 +47,12 @@ export default function NewUser() {
     };
 
     return (
-        <div className="m-6 w-md mx-auto">
+        <div className="max-w-xl mx-auto mt-10 p-6 bg-white dark:bg-neutral-600 text-neutral-900 dark:text-neutral-100 rounded-2xl shadow-md space-y-6">
             <h1 className="text-3xl font-bold mb-6 text-center">Criar usuário</h1>
 
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+                    <label htmlFor="name" className="block text-sm font-medium mb-1">Nome</label>
                     <input
                         type="text"
                         id="name"
@@ -58,12 +60,12 @@ export default function NewUser() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Nome"
                     />
                 </div>
                 <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <label htmlFor="email" className="block text-sm font-medium mb-1">Email</label>
                     <input
                         type="email"
                         id="email"
@@ -71,12 +73,12 @@ export default function NewUser() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="seu@email.com"
                     />
                 </div>
                 <div>
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                    <label htmlFor="password" className="block text-sm font-medium mb-1">Senha</label>
                     <input
                         type="password"
                         id="password"
@@ -84,12 +86,12 @@ export default function NewUser() {
                         value={formData.password}
                         onChange={handleChange}
                         required
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Digite sua senha"
                     />
                 </div>
                 <div>
-                    <label htmlFor="roles" className="block text-sm font-medium text-gray-700 mb-1">Tipo de usuário</label>
+                    <label htmlFor="roles" className="block text-sm font-medium mb-1">Tipo de usuário</label>
                     <select
                         name="roles"
                         id="roles"
@@ -97,7 +99,7 @@ export default function NewUser() {
                         onChange={(e) =>
                             setFormData(prev => ({ ...prev, roles: [e.target.value] }))
                         }
-                        className="w-full px-3 py-2 text-black border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 bg-neutral-100 dark:bg-neutral-600 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:bg-neutral-800"
                     >
                         <option value="">Selecione</option>
                         <option value="ADMIN">ADMIN</option>

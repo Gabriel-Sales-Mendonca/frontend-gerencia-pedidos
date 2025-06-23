@@ -35,7 +35,7 @@ export default function UsersLocations() {
                 </li>
 
                 {usersLocations.map((userLocation: IUserLocationRequest) => (
-                    <li key={`${userLocation.user.id}-${userLocation.location.id}`} className='bg-white rounded p-2 pl-10 grid grid-cols-6 hover:bg-gray-100'>
+                    <li key={`${userLocation.user.id}-${userLocation.location.id}`} className='bg-white dark:bg-neutral-600 dark:hover:bg-neutral-700 border border-gray-400 rounded p-2 pl-10 grid grid-cols-6 hover:bg-gray-100'>
                         <span>{userLocation.user.id}</span>
                         <span>{userLocation.user.name}</span>
                         <span>{userLocation.location.id}</span>
