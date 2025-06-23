@@ -209,6 +209,14 @@ export function useOrders() {
 
       const response = await api.get(`service-orders/by-order/${searchOrder}`)
 
+      response.data.map((order: IGroupedOrder) => {
+        if (order.delivery_date) {
+          if (new Date(convertToUTC(order.delivery_date)) < new Date()) {
+            order.expired = true
+          }
+        }
+      })
+
       setGroupedOrders(response.data)
 
       if (response.data.length < 1) {
