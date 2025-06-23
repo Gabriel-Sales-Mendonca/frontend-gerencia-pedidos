@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -8,10 +8,12 @@ import { toast } from 'react-toastify'
 import api from '@/services/axios'
 import { IOrderCreate } from '@/app/interfaces/order'
 import { toUTCDateFromLocalDateInput } from '@/utils/formatDate'
+import { ICompany } from '@/app/interfaces/company'
 
 export default function CreateOrderPage() {
     const router = useRouter()
     const [isPHOn, setIsPHOn] = useState(true)
+    const [ companies, setCompanies ] = useState<ICompany[]>([])
 
     const [formData, setFormData] = useState<IOrderCreate>({
         order_id: 0,
@@ -20,7 +22,23 @@ export default function CreateOrderPage() {
         products: [{ id: '', name: null }]
     })
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+
+                const responseCompany = await api.get('/companies')
+                setCompanies(responseCompany.data.companies)
+
+            } catch(error) {
+                toast.error("Erro ao buscar dados")
+                console.log("Erro na busca dos dados" + error)
+            }
+        }
+        
+        fetchData()
+    }, [])
+
+    const handleChange = (e: any) => {
         const { name, value } = e.target
         setFormData(prev => ({
             ...prev,
@@ -104,15 +122,22 @@ export default function CreateOrderPage() {
                 </div>
 
                 <div>
-                    <label className="block font-medium mb-1">Código da Empresa</label>
-                    <input
-                        type="number"
-                        name="company_id"
-                        value={formData.company_id <= 0 ? '' : formData.company_id}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                    />
+                    <label className="block font-medium mb-1">Empresa</label>
+                        <select
+                            id="company_id"
+                            name="company_id"
+                            value={formData.company_id}
+                            onChange={handleChange}
+                            required
+                            className="px-3 py-2 bg-neutral-100 dark:bg-neutral-600 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:bg-neutral-800 cursor-pointer"
+                        >
+                            <option value="">Selecione</option>
+                            {companies.map((company) => (
+                                <option key={company.id} value={company.id}>
+                                    {company.name}
+                                </option>
+                            ))}
+                        </select>
                 </div>
 
                 <div>
