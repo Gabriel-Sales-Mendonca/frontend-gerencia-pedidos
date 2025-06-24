@@ -19,7 +19,7 @@ export default function User() {
     const { handleCheckAdminAndNavigate } = useNavigation()
 
     return (
-        <div className='m-6 w-[90%] mx-auto'>
+        <div className='container-principal-pages'>
             <h1 className='text-3xl font-bold mb-6 text-center'>Usuários</h1>
 
             <button className='btn-create' onClick={e => handleCheckAdminAndNavigate(e, '/users/new', isAdmin)}>
@@ -29,7 +29,7 @@ export default function User() {
             <div className='overflow-x-auto'>
                 <ul className='min-w-[600px] mt-2 space-y-2'>
 
-                    <li className='grid grid-cols-6 pl-10'>
+                    <li className='grid grid-cols-[1fr_1fr_150px_1fr_1fr_1fr] pl-10'>
                         <span>Cód.</span>
                         <span>Nome</span>
                         <span>Email</span>
@@ -37,7 +37,7 @@ export default function User() {
                     </li>
 
                     {users.map((user: IUser) => (
-                        <li key={user.id} className='bg-white dark:bg-neutral-600 dark:hover:bg-neutral-700 hover:bg-neutral-100 border border-gray-400 rounded p-2 pl-10 grid grid-cols-6'>
+                        <li key={user.id} className='bg-white dark:bg-neutral-600 dark:hover:bg-neutral-700 hover:bg-neutral-100 border border-gray-400 rounded p-2 pl-10 grid grid-cols-[1fr_1fr_150px_1fr_1fr_1fr]'>
                             <span>{user.id}</span>
                             <span>{user.name}</span>
                             <span>{user.email}</span>

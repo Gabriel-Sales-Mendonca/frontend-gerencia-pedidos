@@ -37,7 +37,7 @@ export default function Home() {
   const [newDate, setNewDate] = useState('')
 
   return (
-    <div className="p-4 md:p-8 md:w-[90%] mx-auto">
+    <div className="container-principal-pages">
       <h1 className="text-3xl font-bold mb-6 text-center">Pedidos</h1>
 
       <Link href={'/orders/new'} className='btn-create-link'>Novo Pedido</Link>
@@ -186,10 +186,11 @@ export default function Home() {
                             <span>
                               {editLocationDeliveryDate === detail.id ?
                                 (
-                                  <div className="flex items-center">
+                                  <div className="flex items-center gap-2">
                                     <input
                                       type="date"
                                       onChange={(e) => { setNewDate(e.target.value) }}
+                                      className="bg-neutral-300 dark:bg-neutral-900 text-black dark:text-white"
                                     />
 
                                     <button

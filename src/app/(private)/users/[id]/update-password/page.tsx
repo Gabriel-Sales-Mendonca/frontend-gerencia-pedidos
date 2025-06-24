@@ -39,7 +39,7 @@ export default function UpdatePassword() {
     };
 
     return (
-        <div className="m-6 w-md mx-auto">
+        <div className="container-form-pages">
 
             <h1 className="text-3xl font-bold mb-6 text-center">Mudar Senha</h1>
 

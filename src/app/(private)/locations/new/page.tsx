@@ -45,7 +45,7 @@ export default function NewLocation() {
     };
 
     return (
-        <div className="m-6 w-md mx-auto">
+        <div className="container-form-pages">
             <h1 className="text-3xl font-bold mb-6 text-center">Criar Localização</h1>
 
             <form onSubmit={handleSubmit} className="space-y-4">
