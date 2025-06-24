@@ -71,12 +71,12 @@ export default function newUsersLocations() {
     }
 
     return (
-        <div className="m-6 w-md mx-auto">
+        <div className="container-form-pages">
             <h1 className="text-3xl font-bold mb-6 text-center">Criar relação</h1>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="flex justify-between items-start w-full max-w-md mx-auto">
-                    <div className="flex flex-col w-[48%]">
+                <div className="flex flex-col md:flex-row items-center justify-center md:justify-between w-full max-w-md mx-auto gap-4">
+                    <div className="flex flex-col w-full md:w-[48%]">
                         <label htmlFor="userId" className="mb-1 font-medium text-xl text-gray-700 dark:text-neutral-100 text-center">Usuário</label>
                         <select
                             id="userId"
@@ -95,7 +95,7 @@ export default function newUsersLocations() {
                         </select>
                     </div>
 
-                    <div className="flex flex-col w-[48%]">
+                    <div className="flex flex-col w-full md:w-[48%]">
                         <label htmlFor="locationId" className="mb-1 font-medium text-xl text-gray-700 dark:text-neutral-100 text-center">Localização</label>
                         <select
                             id="locationId"

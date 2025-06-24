@@ -54,7 +54,7 @@ export default function EditLocation() {
     };
 
     return (
-        <div className="m-6 w-md mx-auto">
+        <div className="container-form-pages">
             <h1 className="text-3xl font-bold mb-6 text-center">Editar Localização</h1>
 
             <form onSubmit={handleSubmit} className="space-y-4">

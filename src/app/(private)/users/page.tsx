@@ -19,7 +19,7 @@ export default function User() {
     const { handleCheckAdminAndNavigate } = useNavigation()
 
     return (
-        <div className='m-6 w-[90%] mx-auto'>
+        <div className='container-principal-pages'>
             <h1 className='text-3xl font-bold mb-6 text-center'>Usuários</h1>
 
             <button className='btn-create' onClick={e => handleCheckAdminAndNavigate(e, '/users/new', isAdmin)}>
