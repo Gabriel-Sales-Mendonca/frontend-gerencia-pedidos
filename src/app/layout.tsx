@@ -19,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <head>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="manifest" href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/manifest.json`} />
         <meta name="theme-color" content="#317EFB" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
