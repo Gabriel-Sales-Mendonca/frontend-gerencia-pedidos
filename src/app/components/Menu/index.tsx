@@ -3,8 +3,11 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
+import usePwaInstall from '@/hooks/usePwaInstall'
+
 export default function Menu() {
     const [isVisible, setIsVisible] = useState(true);
+    const { isInstallable, install } = usePwaInstall();
 
     const handleClose = () => {
         if (isVisible) setIsVisible(false);
@@ -54,6 +57,15 @@ export default function Menu() {
                             <div className='links-menu'>Empresas</div>
                         </Link>
                     </nav>
+
+
+                    {isInstallable && (
+                        <div className='flex justify-center'>                            
+                            <button onClick={install} className="mt-4 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded cursor-pointer">
+                                Instalar App
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
         </>
