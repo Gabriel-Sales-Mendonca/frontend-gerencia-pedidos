@@ -6,8 +6,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 
 import api from '@/services/axios'
-import { IOrderCreate } from '@/app/interfaces/order'
-import { toUTCDateFromLocalDateInput, convertToUTC } from '@/utils/formatDate'
+import { convertToUTC } from '@/utils/formatDate'
 import { ICompany } from '@/app/interfaces/company'
 import { useOrders } from '@/hooks/useOrders'
 import { useServiceOrders } from '@/hooks/useServiceOrders'
@@ -19,19 +18,13 @@ export default function CreateOrderPage() {
     const [ companies, setCompanies ] = useState<ICompany[]>([])
     const [newProducts, setNewProducts] = useState<IProduct[]>([])
 
-    const {
-        context
-    } = useOrders()
+    const { context } = useOrders()
 
-    const {
-        handleDeleteClick
-    } = useServiceOrders()
+    const { handleDeleteClick } = useServiceOrders()
 
     const { orderId, companyId, deliveryDate, products, serviceOrderMap } = context
 
-    const [formData, setFormData] = useState<IOrderCreate>({
-        order_id: orderId,
-        company_id: companyId,
+    const [formData, setFormData] = useState({
         delivery_date: convertToUTC(deliveryDate) || '-',
         products: products.map((id) => ({id: id, name: null}))
     })
@@ -107,9 +100,9 @@ export default function CreateOrderPage() {
                 products: newProducts.filter((value) => value != undefined)
             }
 
-            if (object.products.length < 1) {
+            if (object.products.length > 0) {
                 await api.patch(`/orders/add-products/${orderId}`, object)
-                
+
                 toast.success("Pedido atualizado.")
             }
 
@@ -134,8 +127,7 @@ export default function CreateOrderPage() {
                     <input
                         type="number"
                         name="order_id"
-                        value={formData.order_id <= 0 ? '' : formData.order_id}
-                        onChange={handleChange}
+                        value={orderId <= 0 ? '' : orderId}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                         disabled
@@ -147,8 +139,7 @@ export default function CreateOrderPage() {
                         <select
                             id="company_id"
                             name="company_id"
-                            value={formData.company_id}
-                            onChange={handleChange}
+                            value={companyId}
                             required
                             disabled
                             className="px-3 py-2 bg-neutral-100 dark:bg-neutral-600 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:bg-neutral-800"
@@ -228,7 +219,7 @@ export default function CreateOrderPage() {
                     type="submit"
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
                 >
-                    Criar
+                    Salvar os produtos adicionados
                 </button>
             </form>
         </div>
