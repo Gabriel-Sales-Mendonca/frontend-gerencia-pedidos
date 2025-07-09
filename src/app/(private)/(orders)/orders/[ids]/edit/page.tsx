@@ -11,11 +11,13 @@ import { toUTCDateFromLocalDateInput, convertToUTC } from '@/utils/formatDate'
 import { ICompany } from '@/app/interfaces/company'
 import { useOrders } from '@/hooks/useOrders'
 import { useServiceOrders } from '@/hooks/useServiceOrders'
+import { IProduct } from '@/app/interfaces/product'
 
 export default function CreateOrderPage() {
     const router = useRouter()
     const [isPHOn, setIsPHOn] = useState(true)
     const [ companies, setCompanies ] = useState<ICompany[]>([])
+    const [newProducts, setNewProducts] = useState<IProduct[]>([])
 
     const {
         context
@@ -71,6 +73,11 @@ export default function CreateOrderPage() {
         const formDataProducts = [...formData.products]
         formDataProducts[index] = { id: value, name: null }
 
+        const newListProducts = [...newProducts]
+        newListProducts[index] = { id: value, name: null }
+
+        setNewProducts(newListProducts)
+
         setFormData(prev => ({
             ...prev,
             products: formDataProducts
@@ -95,18 +102,19 @@ export default function CreateOrderPage() {
         e.preventDefault()
 
         try {
-            const order = {
-                id: Number(formData.order_id),
-                company_id: Number(formData.company_id),
-                delivery_date: toUTCDateFromLocalDateInput(formData.delivery_date),
-                products: formData.products.filter(p => p.id.trim() !== '')
+            const object = {
+                company_id: Number(companyId),
+                products: newProducts.filter((value) => value != undefined)
             }
 
-            //await api.post('/orders', order)
+            if (object.products.length < 1) {
+                await api.patch(`/orders/add-products/${orderId}`, object)
+                
+                toast.success("Pedido atualizado.")
+            }
 
-            //toast.success("Pedido criado.")
+            router.push('/')
 
-            //router.push('/')
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
                 toast.error(error.response.data.message);
