@@ -83,7 +83,7 @@ export default function Home() {
                   <div
 
                     onClick={() => toggleExpand(order.order_id, order.company_id)}
-                    className={`grid grid-cols-[1fr_1fr_1fr_1fr_30px] my-0.25 p-4 transition-all rounded-md shadow-sm border border-gray-400 cursor-pointer ${order.expired ? 'bg-red-300 dark:bg-red-400 hover:bg-red-500 dark:text-neutral-900' : 'bg-white hover:bg-neutral-200 dark:bg-neutral-600 dark:hover:bg-neutral-700'}`}
+                    className={`grid grid-cols-[1fr_1fr_1fr_1fr_30px] my-0.25 p-4 transition-all rounded-md shadow-sm border border-gray-400 cursor-pointer ${order.expired ? 'bg-red-300 dark:bg-red-400 hover:bg-red-500 dark:text-neutral-900' : order.expiresInAWeek ? 'bg-yellow-300 dark:bg-yellow-400 hover:bg-yellow-500 dark:text-neutral-900' : 'bg-white hover:bg-neutral-200 dark:bg-neutral-600 dark:hover:bg-neutral-700'}`}
                   >
                     <div className="font-bold">{order.order_id}</div>
                     <div>{order.company_name}</div>
