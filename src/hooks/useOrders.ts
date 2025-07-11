@@ -43,8 +43,16 @@ export function useOrders() {
 
         resServiceOrders.data.data.map((order: IGroupedOrder) => {
           if (order.delivery_date) {
-            if (new Date(convertToUTC(order.delivery_date)) < new Date()) {
+            const deliveryDate = new Date(convertToUTC(order.delivery_date))
+
+            const millisecondsPerDay = 1000 * 60 * 60 * 24
+
+            const differenceDays = Math.floor((deliveryDate.getTime() - new Date().getTime()) / millisecondsPerDay)
+
+            if (deliveryDate < new Date()) {
               order.expired = true
+            } else if (differenceDays < 7) {
+              order.expiresInAWeek = true
             }
           }
         })
