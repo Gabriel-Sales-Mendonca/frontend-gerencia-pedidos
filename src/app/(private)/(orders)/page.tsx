@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 
 import { Pagination } from "@/app/components/Pagination"
+import { OptionsMenu } from "@/app/components/OptionsMenu"
 import { useOrders } from "@/hooks/useOrders"
 import { formatDate, toUTCDateFromLocalDateInput, convertToUTC } from '@/utils/formatDate'
 
@@ -29,12 +30,14 @@ export default function Home() {
     updateLocation,
     updateLocationDeliveryDate,
     handleDeleteClick,
+    handleEditClick,
     handleChangeSearchOrder,
     handleSubmitSearch
   } = useOrders()
 
   const [editLocationDeliveryDate, setEditLocationDeliveryDate] = useState<number | null>(null)
   const [newDate, setNewDate] = useState('')
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null)
 
   return (
     <div className="container-principal-pages">
@@ -86,17 +89,11 @@ export default function Home() {
                     <div>{order.company_name}</div>
                     <div>{order.delivery_date ?? '—'}</div>
                     <div>{order.qtd_product}</div>
-                    <button
-                      className="btn-delete text-center flex"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        handleDeleteClick(order.order_id, order.company_id)
-                      }}
-                    >
-                      <span className={`material-symbols-outlined dark:text-neutral-100 ${order.expired ? 'text-neutral-900 dark:text-neutral-900' : ''}`}>
-                        delete
-                      </span>
-                    </button>
+
+                    <OptionsMenu
+                      onDelete={() => handleDeleteClick(order.order_id, order.company_id)}
+                      onEdit={() => handleEditClick(order.order_id, order.company_id, order.delivery_date ? order.delivery_date : '-', )}
+                    />
                   </div>
 
                   {expandedOrders[key] && (
@@ -237,7 +234,7 @@ export default function Home() {
                                       className="ml-3 text-center flex"
                                     >
                                       <span className="material-symbols-outlined btn-edit">
-                                        edit_square
+                                        edit_calendar
                                       </span>
                                     </button>
                                   </div>

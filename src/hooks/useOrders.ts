@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -8,6 +8,7 @@ import { IServiceOrder } from '@/app/interfaces/serviceOrder'
 import { IGroupedOrder } from '@/app/interfaces/order'
 import { ILocation } from '@/app/interfaces/location'
 import { convertToUTC } from '@/utils/formatDate'
+import { OrderContext } from '@/app/contexts/order-provider'
 
 export function useOrders() {
   const [groupedOrders, setGroupedOrders] = useState<IGroupedOrder[]>([])
@@ -19,6 +20,14 @@ export function useOrders() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0)
   const [searchOrder, setSearchOrder] = useState('')
+
+  const context = useContext(OrderContext)
+
+  if (!context) {
+    throw new Error("useCompanies deve ser usado dentro de um <CompanyProvider>")
+  }
+
+  const { setOrderId, setCompanyId, setDeliveryDate, setProducts, setServiceOrderMap } = context
 
   const router = useRouter()
 
@@ -195,6 +204,33 @@ export function useOrders() {
     router.push(`/orders/${orderId}-${companyId}/delete`)
   }
 
+  const handleEditClick = async (orderId: number, companyId: number, delivery_date: string) => {
+
+    try {
+      const res = await api.get(`/service-orders/details-by-order/${orderId}?company_id=${companyId}`)
+
+      const products: string[] = []
+      const serviceOrderMap = new Map<string, number>()
+
+      for (const object of res.data) {
+        products.push(object.product_id)
+
+        serviceOrderMap.set(object.product_id, object.id)
+      }
+
+      setOrderId(orderId)
+      setCompanyId(companyId)
+      setDeliveryDate(delivery_date)
+      setProducts(products)
+      setServiceOrderMap(serviceOrderMap)
+
+      router.push(`/orders/${orderId}-${companyId}/edit`)
+
+    } catch (error) {
+      toast.error('Erro ao buscar os produtos do pedido que será editado')
+    }
+  }
+
   const handleChangeSearchOrder = (e: any) => {
     const { value } = e.target
     setSearchOrder(value)
@@ -262,6 +298,7 @@ export function useOrders() {
     currentPage,
     totalPages,
     searchOrder,
+    context,
     setCurrentPage,
     getKey,
     toggleExpand,
@@ -272,6 +309,7 @@ export function useOrders() {
     updateLocation,
     updateLocationDeliveryDate,
     handleDeleteClick,
+    handleEditClick,
     handleChangeSearchOrder,
     handleSubmitSearch
   }

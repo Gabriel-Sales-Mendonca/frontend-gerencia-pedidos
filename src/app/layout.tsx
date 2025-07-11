@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import "./globals.css";
 import UserProvider from '@/app/contexts/user-provider'
 import LocationProvider from "./contexts/location-provider";
+import OrderProvider from "./contexts/order-provider";
 
 export const metadata: Metadata = {
   title: "Gerencia Pedidos",
@@ -27,7 +28,9 @@ export default function RootLayout({
       <body>
         <UserProvider>
           <LocationProvider>
-            {children}
+            <OrderProvider>
+              {children}
+            </OrderProvider>
           </LocationProvider>
         </UserProvider>
         <ToastContainer
