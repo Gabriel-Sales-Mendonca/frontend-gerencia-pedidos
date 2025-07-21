@@ -54,3 +54,7 @@ body {
 .container-principal-pages {
   @apply p-4 md:p-8 md:w-[90%] mx-auto
 }
+
+.finish {
+  @apply py-1 px-2 mb-4 rounded text-white;
+}

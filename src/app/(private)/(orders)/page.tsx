@@ -92,24 +92,25 @@ export default function Home() {
 
                     <OptionsMenu
                       onDelete={() => handleDeleteClick(order.order_id, order.company_id)}
-                      onEdit={() => handleEditClick(order.order_id, order.company_id, order.delivery_date ? order.delivery_date : '-', )}
+                      onEdit={() => handleEditClick(order.order_id, order.company_id, order.delivery_date ? order.delivery_date : '-',)}
                     />
                   </div>
 
                   {expandedOrders[key] && (
                     <ul className="text-neutral-900 dark:text-neutral-100 ml-4 mt-2 space-y-2 border-l border-gray-300 pl-4">
 
-                      <li className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] font-medium text-gray-700 dark:text-neutral-100">
+                      <li className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] font-medium text-gray-700 dark:text-neutral-100">
                         <span>Produto</span>
                         <span>Destino</span>
                         <span>Localização</span>
                         <span>Recebido em</span>
                         <span>Entregar até</span>
+                        <span>Status</span>
                       </li>
 
                       {orderDetails[key]?.map((detail) => (
                         <div key={detail.id} className="mb-6 rounded border border-gray-300">
-                          <li className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] items-center text-sm bg-white dark:bg-gray-600 p-2 rounded-t gap-2">
+                          <li className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr] items-center text-sm bg-white dark:bg-gray-600 p-2 rounded-t gap-2">
 
                             <span>{detail.product_id}</span>
 
@@ -240,6 +241,10 @@ export default function Home() {
                                   </div>
                                 )
                               }
+                            </span>
+
+                            <span className={`finish ${detail.finished ? 'w-20 bg-green-500' : "w-27 bg-red-500"}`}>
+                              {detail.finished ? 'Finalizado' : "Não finalizado"}
                             </span>
 
                           </li>
