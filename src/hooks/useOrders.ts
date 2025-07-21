@@ -296,6 +296,42 @@ export function useOrders() {
     }
   }
 
+  const toggleFinish = async (serviceOrderId: number, orderId: number, companyId: number, finished: boolean | undefined) => {
+    if (finished) {
+      try {
+
+        const key = getKey(orderId, companyId)
+
+        setOrderDetails((prev) => ({
+          ...prev,
+          [key]: prev[key].map((item) =>
+            item.id === serviceOrderId ? { ...item, finished: false } : item
+          )
+        }))
+
+      } catch (e) {
+        toast.error("Erro ao Reabrir")
+      }
+    } else {
+      try {
+
+        await api.patch(`/service-orders/finish/${serviceOrderId}?order_id=${orderId}&company_id=${companyId}`)
+
+        const key = getKey(orderId, companyId)
+
+        setOrderDetails((prev) => ({
+          ...prev,
+          [key]: prev[key].map((item) =>
+            item.id === serviceOrderId ? { ...item, finished: true } : item
+          )
+        }))
+
+      } catch (e) {
+        toast.error("Erro ao Finalizar")
+      }
+    }
+  }
+
   return {
     groupedOrders,
     expandedOrders,
@@ -319,6 +355,7 @@ export function useOrders() {
     handleDeleteClick,
     handleEditClick,
     handleChangeSearchOrder,
-    handleSubmitSearch
+    handleSubmitSearch,
+    toggleFinish
   }
 }

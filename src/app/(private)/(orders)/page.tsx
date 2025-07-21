@@ -5,6 +5,7 @@ import Link from "next/link"
 
 import { Pagination } from "@/app/components/Pagination"
 import { OptionsMenu } from "@/app/components/OptionsMenu"
+import { OptionsMenuServiceOrder } from "@/app/components/OptionsMenuServiceOrder"
 import { useOrders } from "@/hooks/useOrders"
 import { formatDate, toUTCDateFromLocalDateInput, convertToUTC } from '@/utils/formatDate'
 
@@ -32,7 +33,8 @@ export default function Home() {
     handleDeleteClick,
     handleEditClick,
     handleChangeSearchOrder,
-    handleSubmitSearch
+    handleSubmitSearch,
+    toggleFinish
   } = useOrders()
 
   const [editLocationDeliveryDate, setEditLocationDeliveryDate] = useState<number | null>(null)
@@ -99,7 +101,7 @@ export default function Home() {
                   {expandedOrders[key] && (
                     <ul className="text-neutral-900 dark:text-neutral-100 ml-4 mt-2 space-y-2 border-l border-gray-300 pl-4">
 
-                      <li className="grid grid-cols-[minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)] font-medium text-gray-700 dark:text-neutral-100">
+                      <li className="grid grid-cols-[minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)_30px] font-medium text-gray-700 dark:text-neutral-100">
                         <span>Produto</span>
                         <span>Destino</span>
                         <span>Localização</span>
@@ -110,7 +112,7 @@ export default function Home() {
 
                       {orderDetails[key]?.map((detail) => (
                         <div key={detail.id} className="mb-6 rounded border border-gray-300">
-                          <li className="grid grid-cols-[minmax(110px,1fr)_minmax(110px,1fr)_minmax(110px,1fr)_minmax(110px,1fr)_minmax(110px,1fr)_minmax(110px,1fr)] items-center text-sm bg-white dark:bg-gray-600 p-2 rounded-t gap-2">
+                          <li className="grid grid-cols-[minmax(110px,1fr)_minmax(110px,1fr)_minmax(110px,1fr)_minmax(110px,1fr)_minmax(110px,1fr)_minmax(110px,1fr)_30px] items-center text-sm bg-white dark:bg-gray-600 p-2 rounded-t gap-2">
 
                             <span>{detail.product_id}</span>
 
@@ -246,6 +248,11 @@ export default function Home() {
                             <span className={`finish ${detail.finished ? 'w-20 bg-green-500' : "w-27 bg-red-500"}`}>
                               {detail.finished ? 'Finalizado' : "Não finalizado"}
                             </span>
+
+                            <OptionsMenuServiceOrder
+                              onFinishing={() => toggleFinish(detail.id, order.order_id, order.company_id, detail.finished)}
+                              status={detail.finished}
+                            />
 
                           </li>
                         </div>
