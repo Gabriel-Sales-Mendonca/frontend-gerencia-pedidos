@@ -85,7 +85,7 @@ export default function Home() {
                   <div
 
                     onClick={() => toggleExpand(order.order_id, order.company_id)}
-                    className={`grid grid-cols-[1fr_1fr_1fr_1fr_30px] my-0.25 p-4 transition-all rounded-md shadow-sm border border-gray-400 cursor-pointer ${order.expired ? 'bg-red-300 dark:bg-red-400 hover:bg-red-500 dark:text-neutral-900' : order.expiresInAWeek ? 'bg-yellow-300 dark:bg-yellow-400 hover:bg-yellow-500 dark:text-neutral-900' : 'bg-white hover:bg-neutral-200 dark:bg-neutral-600 dark:hover:bg-neutral-700'}`}
+                    className={`grid grid-cols-[1fr_1fr_1fr_1fr_30px] my-0.25 p-4 transition-all rounded-md shadow-sm border border-gray-400 cursor-pointer ${order.finished ? 'bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-600' : order.expired ? 'bg-red-300 dark:bg-red-400 hover:bg-red-500 dark:text-neutral-900' : order.expiresInAWeek ? 'bg-yellow-300 dark:bg-yellow-400 hover:bg-yellow-500 dark:text-neutral-900' : 'bg-white hover:bg-neutral-200 dark:bg-neutral-600 dark:hover:bg-neutral-700'}`}
                   >
                     <div className="font-bold">{order.order_id}</div>
                     <div>{order.company_name}</div>
@@ -101,7 +101,7 @@ export default function Home() {
                   {expandedOrders[key] && (
                     <ul className="text-neutral-900 dark:text-neutral-100 ml-4 mt-2 space-y-2 border-l border-gray-300 pl-4">
 
-                      <li className="grid grid-cols-[minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1fr)_30px] font-medium text-gray-700 dark:text-neutral-100">
+                      <li className="grid grid-cols-[minmax(120px,1fr)_minmax(120px,1.5fr)_minmax(120px,1fr)_minmax(120px,1fr)_minmax(120px,1.5fr)_minmax(120px,1fr)_30px] font-medium text-gray-700 dark:text-neutral-100">
                         <span>Produto</span>
                         <span>Destino</span>
                         <span>Localização</span>
@@ -112,7 +112,7 @@ export default function Home() {
 
                       {orderDetails[key]?.map((detail) => (
                         <div key={detail.id} className="mb-6 rounded border border-gray-300">
-                          <li className="grid grid-cols-[minmax(110px,1fr)_minmax(110px,1fr)_minmax(110px,1fr)_minmax(110px,1fr)_minmax(110px,1fr)_minmax(110px,1fr)_30px] items-center text-sm bg-white dark:bg-gray-600 p-2 rounded-t gap-2">
+                          <li className="grid grid-cols-[minmax(110px,1fr)_minmax(110px,1.5fr)_minmax(110px,1fr)_minmax(110px,1fr)_minmax(110px,1.5fr)_minmax(110px,1fr)_30px] items-center text-sm bg-white dark:bg-gray-600 p-2 rounded-t gap-2">
 
                             <span>{detail.product_id}</span>
 
