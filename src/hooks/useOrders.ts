@@ -299,6 +299,7 @@ export function useOrders() {
   const toggleFinish = async (serviceOrderId: number, orderId: number, companyId: number, finished: boolean | undefined) => {
     if (finished) {
       try {
+        await api.patch(`/service-orders/unfinish/${serviceOrderId}?order_id=${orderId}&company_id=${companyId}`)
 
         const key = getKey(orderId, companyId)
 
@@ -314,7 +315,6 @@ export function useOrders() {
       }
     } else {
       try {
-
         await api.patch(`/service-orders/finish/${serviceOrderId}?order_id=${orderId}&company_id=${companyId}`)
 
         const key = getKey(orderId, companyId)
