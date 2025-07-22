@@ -6,7 +6,7 @@ import Link from 'next/link'
 import usePwaInstall from '@/hooks/usePwaInstall'
 
 export default function Menu() {
-    const [isVisible, setIsVisible] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
     const { isInstallable, install } = usePwaInstall();
 
     const handleClose = () => {
