@@ -147,7 +147,7 @@ export default function CreateOrderPage() {
                         name="delivery_date"
                         value={formData.delivery_date}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 bg-neutral-300 text-black rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 

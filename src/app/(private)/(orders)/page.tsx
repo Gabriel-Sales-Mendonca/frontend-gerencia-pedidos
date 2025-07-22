@@ -144,7 +144,7 @@ export default function Home() {
                                     }}
                                     className="cursor-pointer"
                                   >
-                                    <span className="material-symbols-outlined text-red-600 rounded-full hover:bg-gray-200">
+                                    <span className="material-symbols-outlined text-red-600 rounded-full dark:bg-gray-200 hover:bg-gray-200">
                                       close
                                     </span>
                                   </button>
@@ -154,7 +154,7 @@ export default function Home() {
                                     }
                                     className="text-blue-600 text-xs hover:underline cursor-pointer"
                                   >
-                                    <span className="material-symbols-outlined text-green-600 rounded-full hover:bg-gray-200">
+                                    <span className="material-symbols-outlined text-green-600 rounded-full dark:bg-gray-200 hover:bg-gray-200">
                                       check
                                     </span>
                                   </button>
@@ -190,14 +190,14 @@ export default function Home() {
                                     <input
                                       type="date"
                                       onChange={(e) => { setNewDate(e.target.value) }}
-                                      className="bg-neutral-300 dark:bg-neutral-900 text-black dark:text-white"
+                                      className="px-3 py-1 border rounded-md bg-neutral-300 dark:bg-neutral-300 text-black dark:text-black"
                                     />
 
                                     <button
                                       onClick={() => { setEditLocationDeliveryDate(null) }}
                                       className="text-blue-600 text-xs hover:underline cursor-pointer"
                                     >
-                                      <span className="material-symbols-outlined text-red-600 rounded-full hover:bg-gray-200">
+                                      <span className="material-symbols-outlined text-red-600 rounded-full dark:bg-gray-200 hover:bg-gray-200">
                                         close
                                       </span>
                                     </button>
@@ -220,7 +220,7 @@ export default function Home() {
                                       }}
                                       className="text-blue-600 text-xs hover:underline cursor-pointer"
                                     >
-                                      <span className="material-symbols-outlined text-green-600 rounded-full hover:bg-gray-200">
+                                      <span className="material-symbols-outlined text-green-600 rounded-full dark:bg-gray-200 hover:bg-gray-200">
                                         check
                                       </span>
                                     </button>
