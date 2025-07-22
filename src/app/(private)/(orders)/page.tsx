@@ -5,6 +5,7 @@ import Link from "next/link"
 
 import { Pagination } from "@/app/components/Pagination"
 import { OptionsMenu } from "@/app/components/OptionsMenu"
+import { OptionsMenuServiceOrder } from "@/app/components/OptionsMenuServiceOrder"
 import { useOrders } from "@/hooks/useOrders"
 import { formatDate, toUTCDateFromLocalDateInput, convertToUTC } from '@/utils/formatDate'
 
@@ -32,7 +33,8 @@ export default function Home() {
     handleDeleteClick,
     handleEditClick,
     handleChangeSearchOrder,
-    handleSubmitSearch
+    handleSubmitSearch,
+    toggleFinish
   } = useOrders()
 
   const [editLocationDeliveryDate, setEditLocationDeliveryDate] = useState<number | null>(null)
@@ -64,7 +66,7 @@ export default function Home() {
       </form>
 
       <div className="overflow-x-auto">
-        <div className="min-w-[600px]">
+        <div className="min-w-[1250px] md:min-w-[700px]">
           <div className="grid grid-cols-[1fr_1fr_1fr_1fr_30px] font-semibold bg-slate-200 dark:bg-neutral-700 mt-6 p-4 rounded-t-lg border border-gray-400">
             <div>Pedido</div>
             <div>Empresa</div>
@@ -83,7 +85,7 @@ export default function Home() {
                   <div
 
                     onClick={() => toggleExpand(order.order_id, order.company_id)}
-                    className={`grid grid-cols-[1fr_1fr_1fr_1fr_30px] my-0.25 p-4 transition-all rounded-md shadow-sm border border-gray-400 cursor-pointer ${order.expired ? 'bg-red-300 dark:bg-red-400 hover:bg-red-500 dark:text-neutral-900' : order.expiresInAWeek ? 'bg-yellow-300 dark:bg-yellow-400 hover:bg-yellow-500 dark:text-neutral-900' : 'bg-white hover:bg-neutral-200 dark:bg-neutral-600 dark:hover:bg-neutral-700'}`}
+                    className={`grid grid-cols-[1fr_1fr_1fr_1fr_30px] my-0.25 p-4 transition-all rounded-md shadow-sm border border-gray-400 cursor-pointer ${order.finished ? 'bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:hover:bg-green-600' : order.expired ? 'bg-red-300 dark:bg-red-400 hover:bg-red-500 dark:text-neutral-900' : order.expiresInAWeek ? 'bg-yellow-300 dark:bg-yellow-400 hover:bg-yellow-500 dark:text-neutral-900' : 'bg-white hover:bg-neutral-200 dark:bg-neutral-600 dark:hover:bg-neutral-700'}`}
                   >
                     <div className="font-bold">{order.order_id}</div>
                     <div>{order.company_name}</div>
@@ -92,24 +94,25 @@ export default function Home() {
 
                     <OptionsMenu
                       onDelete={() => handleDeleteClick(order.order_id, order.company_id)}
-                      onEdit={() => handleEditClick(order.order_id, order.company_id, order.delivery_date ? order.delivery_date : '-', )}
+                      onEdit={() => handleEditClick(order.order_id, order.company_id, order.delivery_date ? order.delivery_date : '-',)}
                     />
                   </div>
 
                   {expandedOrders[key] && (
                     <ul className="text-neutral-900 dark:text-neutral-100 ml-4 mt-2 space-y-2 border-l border-gray-300 pl-4">
 
-                      <li className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] font-medium text-gray-700 dark:text-neutral-100">
+                      <li className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_30px] font-medium text-gray-700 dark:text-neutral-100">
                         <span>Produto</span>
                         <span>Destino</span>
                         <span>Localização</span>
                         <span>Recebido em</span>
                         <span>Entregar até</span>
+                        <span>Status</span>
                       </li>
 
                       {orderDetails[key]?.map((detail) => (
                         <div key={detail.id} className="mb-6 rounded border border-gray-300">
-                          <li className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] items-center text-sm bg-white dark:bg-gray-600 p-2 rounded-t gap-2">
+                          <li className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr_1fr_30px] items-center text-sm bg-white dark:bg-gray-600 p-2 rounded-t gap-2">
 
                             <span>{detail.product_id}</span>
 
@@ -141,7 +144,7 @@ export default function Home() {
                                     }}
                                     className="cursor-pointer"
                                   >
-                                    <span className="material-symbols-outlined text-red-600 rounded-full hover:bg-gray-200">
+                                    <span className="material-symbols-outlined text-red-600 rounded-full dark:bg-gray-200 hover:bg-gray-200">
                                       close
                                     </span>
                                   </button>
@@ -151,7 +154,7 @@ export default function Home() {
                                     }
                                     className="text-blue-600 text-xs hover:underline cursor-pointer"
                                   >
-                                    <span className="material-symbols-outlined text-green-600 rounded-full hover:bg-gray-200">
+                                    <span className="material-symbols-outlined text-green-600 rounded-full dark:bg-gray-200 hover:bg-gray-200">
                                       check
                                     </span>
                                   </button>
@@ -187,14 +190,14 @@ export default function Home() {
                                     <input
                                       type="date"
                                       onChange={(e) => { setNewDate(e.target.value) }}
-                                      className="bg-neutral-300 dark:bg-neutral-900 text-black dark:text-white"
+                                      className="px-3 py-1 border rounded-md bg-neutral-300 dark:bg-neutral-300 text-black dark:text-black"
                                     />
 
                                     <button
                                       onClick={() => { setEditLocationDeliveryDate(null) }}
                                       className="text-blue-600 text-xs hover:underline cursor-pointer"
                                     >
-                                      <span className="material-symbols-outlined text-red-600 rounded-full hover:bg-gray-200">
+                                      <span className="material-symbols-outlined text-red-600 rounded-full dark:bg-gray-200 hover:bg-gray-200">
                                         close
                                       </span>
                                     </button>
@@ -217,7 +220,7 @@ export default function Home() {
                                       }}
                                       className="text-blue-600 text-xs hover:underline cursor-pointer"
                                     >
-                                      <span className="material-symbols-outlined text-green-600 rounded-full hover:bg-gray-200">
+                                      <span className="material-symbols-outlined text-green-600 rounded-full dark:bg-gray-200 hover:bg-gray-200">
                                         check
                                       </span>
                                     </button>
@@ -241,6 +244,15 @@ export default function Home() {
                                 )
                               }
                             </span>
+
+                            <span className={`finish ${detail.finished ? 'w-20 bg-green-500' : "w-27 bg-red-500"}`}>
+                              {detail.finished ? 'Finalizado' : "Não finalizado"}
+                            </span>
+
+                            <OptionsMenuServiceOrder
+                              onFinishing={() => toggleFinish(detail.id, order.order_id, order.company_id, detail.finished)}
+                              status={detail.finished}
+                            />
 
                           </li>
                         </div>

@@ -8,4 +8,5 @@ export interface IServiceOrder {
   destinationLocation?: { name: string } | null
   location_start_date?: Date
   location_delivery_date?: Date
+  finished?: boolean
 }

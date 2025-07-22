@@ -7,7 +7,8 @@ export interface IGroupedOrder {
   delivery_date: string | null
   qtd_product: number
   expired: boolean
-  expiresInAWeek: boolean
+  expiresInAWeek: boolean,
+  finished: boolean | undefined
 }
 
 export interface IOrderCreate {
